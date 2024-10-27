@@ -1,38 +1,61 @@
-<p-carousel 
-    [value]="products" 
-    [numVisible]="3" 
-    [numScroll]="3" 
-    [circular]="true" 
-    [responsiveOptions]="responsiveOptions" 
-    autoplayInterval="3000">
-        <ng-template let-product pTemplate="item">
-                <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
-                    <div class="mb-4">
-                        <div class="relative mx-auto">
-                            <img 
-                                src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" 
-                                [alt]="product.name" 
-                                class="w-full rounded-border" />
-                            <p-tag 
-                                [value]="product.inventoryStatus" 
-                                [severity]="getSeverity(product.inventoryStatus)" 
-                                class="absolute"
-                                styleClass="dark:!bg-surface-900"
-                                [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+<div class="container-foto">
+    <div class="container-degradado">
+
+        <div style="width: 100%; height: 100%;">
+                <p-carousel [value]="products" [numVisible]="1" [numScroll]="1" [circular]="true"
+                    [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
+                    <ng-template let-product pTemplate="item">
+                        <div  class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                            <div class="mb-3">
+                                <div class="relative mx-auto">
+                                    <div style="position: absolute; margin: 10px;">
+                                        <p-tag [value]="product.inventoryStatus"
+                                            [severity]="getSeverity(product.inventoryStatus)" class="absolute"
+                                            styleClass="dark:!bg-surface-900"
+                                            [ngStyle]="{ 'left.px': 0, 'top.px': 0}" />
+                                    </div>
+                                    <img style="width: 100%; height: 400px;" src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t1.6435-9/104689225_2682275111879131_2767355865522515032_n.png?_nc_cat=110&ccb=1-7&_nc_sid=2a1932&_nc_ohc=BeAh3zvg8dcQ7kNvgFvlwTJ&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=Aa-5Ui3rZuBAICsKPKs6z1Z&oh=00_AYA7lxxPPTC6oeQEW2_f1YF9huGzKRFZvgOexllGjnBvzg&oe=674556B4"
+                                        [alt]="product.name" class="w-full rounded-border" />
+                                    
+
+                                </div>
+                            </div>
+                            <div style=" display: flex;align-items: center; width: 100%;">
+                                
+                                <div style="width: 70%; text-align: center;" class="mb-4 font-medium">
+                                    {{ product.name }}
+                                </div>
+                                <!-- <div>
+                                     <div class="mt-0 font-semibold text-x1">
+                                        {{ '$' + product.price }}
+                                    </div>
+                                </div> -->
+                                <div style="display: flex; align-items: center; justify-content: right; width: 20%;" class="flex justify-between items-center">
+                                    <div style="margin-right: 20px;" class="mt-0 font-semibold text-xl">
+                                        {{ '$' + product.price }}
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <div style="display: flex;">
+                                                <div style="margin-right: 10px;">
+                                                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                                                </div>
+                                                <div>
+                                                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                                                </div>
+                                            </div>
+        
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
                         </div>
-                    </div>
-                    <div class="mb-4 font-medium">
-                        {{ product.name }}
-                    </div>
-                    <div class="flex justify-between items-center">
-                    <div class="mt-0 font-semibold text-xl">
-                        {{ '$' + product.price }}
-                    </div>
-                        <span>
-                            <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
-                            <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
-                        </span>
-                    </div>
-                </div>
-        </ng-template>
-</p-carousel>
+                    </ng-template>
+                </p-carousel>
+            
+
+        </div>
+    </div>
+</div>

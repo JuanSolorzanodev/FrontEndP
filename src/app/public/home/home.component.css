@@ -1,0 +1,14 @@
+.container-foto {
+    width: 100%;
+   /*  background-image: url("https://impromex.com.ec/img/cms/Portadas%20Superiores/Portada-web-certificaciones.jpg");
+    background-size: cover;
+    background-repeat: no-repeat; */
+}
+
+.container-degradado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* background-color: #000000a7; */
+}

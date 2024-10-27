@@ -3,12 +3,12 @@ import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
-
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CarouselModule, ButtonModule, TagModule,CommonModule],
+  imports: [CarouselModule, ButtonModule, TagModule,CommonModule,CardModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']  // Cambiado de styleUrl a styleUrls
 })
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
       this.products = [
         {
-          id: '1000',
+          id: '1',
           code: 'f230fh0g3',
           name: 'Bamboo Watch',
           description: 'Product Description',
@@ -33,7 +33,30 @@ export class HomeComponent implements OnInit {
           inventoryStatus: 'INSTOCK',
           rating: 5
       },
-
+      {
+        id: '2',
+        code: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+        image: 'bamboo-watch.jpg',
+        price: 65,
+        category: 'Accessories',
+        quantity: 24,
+        inventoryStatus: 'INSTOCK',
+        rating: 5
+    },
+    {
+        id: '3',
+        code: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+        image: 'bamboo-watch.jpg',
+        price: 65,
+        category: 'Accessories',
+        quantity: 24,
+        inventoryStatus: 'INSTOCK',
+        rating: 5
+    },
       ];
 
      this.responsiveOptions = [
