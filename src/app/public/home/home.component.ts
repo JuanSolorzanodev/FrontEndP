@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
+import { ProductoService } from '../../services/producto.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
 
   responsiveOptions: any[] | undefined;
 
-  constructor() {}
+  constructor(private productoService: ProductoService) {}
     carouselShow:any;
   ngOnInit() {
       this.carouselShow = [
@@ -76,33 +77,7 @@ export class HomeComponent implements OnInit {
               numScroll: 1
           }
       ];
-      this.products = [
-        {
-            id: '1',
-            code: 'f230fh0g3',
-            name: 'Bamboo Watch',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        {
-            id: '2',
-            code: 'f230fh0g3',
-            name: 'Tacho',
-            description: 'Product Description',
-            image: 'bamboo-watch.jpg',
-            price: 65,
-            category: 'Accessories',
-            quantity: 24,
-            inventoryStatus: 'INSTOCK',
-            rating: 5
-        },
-        
-      ]
+      this.productoService.getProducts().subscribe(data => { this.products = data; });
 
   }
 
