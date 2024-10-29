@@ -1,60 +1,73 @@
 <div class="container-foto">
     <div class="container-degradado">
-
         <div style="width: 100%; height: 100%;">
-                <p-carousel [value]="products" [numVisible]="1" [numScroll]="1" [circular]="true"
-                    [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
-                    <ng-template let-product pTemplate="item">
-                        <div  class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
-                            <div class="mb-3">
-                                <div class="relative mx-auto">
-                                    <div style="position: absolute; margin: 10px;">
-                                        <p-tag [value]="product.inventoryStatus"
-                                            [severity]="getSeverity(product.inventoryStatus)" class="absolute"
-                                            styleClass="dark:!bg-surface-900"
-                                            [ngStyle]="{ 'left.px': 0, 'top.px': 0}" />
-                                    </div>
-                                    <img style="width: 100%; height: 400px;" src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t1.6435-9/104689225_2682275111879131_2767355865522515032_n.png?_nc_cat=110&ccb=1-7&_nc_sid=2a1932&_nc_ohc=BeAh3zvg8dcQ7kNvgFvlwTJ&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=Aa-5Ui3rZuBAICsKPKs6z1Z&oh=00_AYA7lxxPPTC6oeQEW2_f1YF9huGzKRFZvgOexllGjnBvzg&oe=674556B4"
-                                        [alt]="product.name" class="w-full rounded-border" />
-                                    
-
+            <p-carousel [value]="carouselShow" [numVisible]="1" [numScroll]="1" [circular]="true"
+                [responsiveOptions]="responsiveOptions" autoplayInterval="3000">
+                <ng-template let-product pTemplate="item">
+                    <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                        <div class="mb-3">
+                            <div class="relative mx-auto">
+                                <div style="position: absolute; margin: 10px;">
+                                    <p-tag [value]="product.inventoryStatus"
+                                        [severity]="getSeverity(product.inventoryStatus)" class="absolute"
+                                        styleClass="dark:!bg-surface-900" [ngStyle]="{ 'left.px': 0, 'top.px': 0}" />
                                 </div>
+                                <img style="width: 100%; height: 400px;"
+                                    src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t1.6435-9/104689225_2682275111879131_2767355865522515032_n.png?_nc_cat=110&ccb=1-7&_nc_sid=2a1932&_nc_ohc=BeAh3zvg8dcQ7kNvgFvlwTJ&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=Aa-5Ui3rZuBAICsKPKs6z1Z&oh=00_AYA7lxxPPTC6oeQEW2_f1YF9huGzKRFZvgOexllGjnBvzg&oe=674556B4"
+                                    [alt]="product.name" class="w-full rounded-border" />
                             </div>
-                            <div style=" display: flex;align-items: center; width: 100%;">
-                                
-                                <div style="width: 70%; text-align: center;" class="mb-4 font-medium">
-                                    {{ product.name }}
-                                </div>
-                                <!-- <div>
-                                     <div class="mt-0 font-semibold text-x1">
-                                        {{ '$' + product.price }}
-                                    </div>
-                                </div> -->
-                                <div style="display: flex; align-items: center; justify-content: right; width: 20%;" class="flex justify-between items-center">
-                                    <div style="margin-right: 20px;" class="mt-0 font-semibold text-xl">
-                                        {{ '$' + product.price }}
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <div style="display: flex;">
-                                                <div style="margin-right: 10px;">
-                                                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
-                                                </div>
-                                                <div>
-                                                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
-                                                </div>
-                                            </div>
-        
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            
                         </div>
-                    </ng-template>
-                </p-carousel>
-            
+                    </div>
+                </ng-template>
+            </p-carousel>
+
+
+        </div>
+    </div>
+</div>
+<div style="width: 100%; display: flex; justify-content: center;">
+    <div style="width: 70%; height: max-content; display: flex; justify-content: center; align-items: center;">
+
+        <div style="display: flex; justify-content: center; width: 100%; height: 500px;">
+
+            <div *ngFor="let product of products" style="width: 200px; margin-right: 10px;">
+                <div style="width: 200px; height: 170px;">
+                    <img style="width: 200px; height: 200px;"
+                        src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/443716246_953634143429201_8591976878975697243_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=bEDFhAqwXQ0Q7kNvgHPrKiz&_nc_zt=23&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=AxJzaPkt8yJIuMdJ_2LqO1q&oh=00_AYDfo4dHcCIPdnYcxML4GbH04cPiWTAEk_MA6ymhDM2sQQ&oe=67244F04"
+                        alt="">
+
+                </div>
+                <p-card [style]="{height:'170px'}">
+                    <div style="font-size:10px ;text-align: center; margin-bottom: 10px;">
+                        <div>
+                            <span>
+                                {{ product.name }}
+                            </span>
+                        </div>
+                        <div style="font-size: large;">
+                            <span>
+                                ${{ product.price }}
+                            </span>
+                        </div>
+
+                        <div>
+                            <p>{{ product.description }}</p>
+                        </div>
+                        <div>
+                            <span>
+                                {{ product.category }}
+                            </span>
+                        </div>
+
+                    </div>
+                    <div style="width: 100%; display: flex; justify-content: center;">
+                        <p-button label="add to cart" icon="pi pi-shopping-cart"
+                            [style]="{width: '170px',fontSize: '10px',height:'5px',backgroundColor:'#4a89ccc6'}"></p-button>
+                    </div>
+
+                </p-card>
+
+            </div>
 
         </div>
     </div>

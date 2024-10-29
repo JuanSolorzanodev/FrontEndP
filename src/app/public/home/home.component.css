@@ -3,6 +3,10 @@
    /*  background-image: url("https://impromex.com.ec/img/cms/Portadas%20Superiores/Portada-web-certificaciones.jpg");
     background-size: cover;
     background-repeat: no-repeat; */
+    /* height: ; */
+    
+    font-size: x-small;
+
 }
 
 .container-degradado {
@@ -10,5 +14,9 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* background-color: #000000a7; */
+    /* font-size: ; */
+   /*  padding: ; */
+    /* background-color: #4a89ccc6; */
+    border: none;
 }
+

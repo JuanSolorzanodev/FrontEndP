@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit {
   responsiveOptions: any[] | undefined;
 
   constructor() {}
-
+    carouselShow:any;
   ngOnInit() {
-      this.products = [
+      this.carouselShow = [
         {
           id: '1',
           code: 'f230fh0g3',
@@ -76,6 +76,34 @@ export class HomeComponent implements OnInit {
               numScroll: 1
           }
       ];
+      this.products = [
+        {
+            id: '1',
+            code: 'f230fh0g3',
+            name: 'Bamboo Watch',
+            description: 'Product Description',
+            image: 'bamboo-watch.jpg',
+            price: 65,
+            category: 'Accessories',
+            quantity: 24,
+            inventoryStatus: 'INSTOCK',
+            rating: 5
+        },
+        {
+            id: '2',
+            code: 'f230fh0g3',
+            name: 'Tacho',
+            description: 'Product Description',
+            image: 'bamboo-watch.jpg',
+            price: 65,
+            category: 'Accessories',
+            quantity: 24,
+            inventoryStatus: 'INSTOCK',
+            rating: 5
+        },
+        
+      ]
+
   }
 
     getSeverity(status: string): "success" | "secondary" | "info" | "warning" | "danger" | "contrast" | undefined {
