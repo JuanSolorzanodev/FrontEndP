@@ -14,9 +14,7 @@
                         </p-sidebar>
                         <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
                     </div>
-            </ng-template>
-            
-                        
+            </ng-template>                        
             <ng-template pTemplate="item" let-item let-root="root">
 
                 <a pRipple class="flex align-items-center p-menuitem-link">
@@ -38,6 +36,10 @@
                         <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
                             shape="circle" />
                     </div>
+                    <div style="margin-left: 10px;">
+                        <app-cart></app-cart>
+                    </div>
+                    
                 </div>
             </ng-template>
         </p-menubar>

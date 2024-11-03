@@ -17,6 +17,10 @@
     /* font-size: ; */
    /*  padding: ; */
     /* background-color: #4a89ccc6; */
+    /* background-color: #e9320efe; */
     border: none;
+}
+.quick-view:hover{
+    background-color: #0000004a;
 }
 

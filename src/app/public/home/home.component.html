@@ -28,15 +28,43 @@
 <div style="width: 100%; display: flex; justify-content: center;">
     <div style="width: 70%; height: max-content; display: flex; justify-content: center; align-items: center;">
 
-        <div style="display: flex; justify-content: center; width: 100%; height: 500px;">
+        <div
+            style="display: flex; justify-content: center; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
 
-            <div *ngFor="let product of products" style="width: 200px; margin-right: 10px;">
-                <div style="width: 200px; height: 170px;">
+            <div *ngFor="let product of products" style="width: 200px">
+                <div style="width: 200px; height: 170px; ">
+                    <div style="z-index: 1; position: absolute;" *ngIf="product.stock < 1">
+                        <img style="width: 80px;" src="https://prueba.iac.com.co/demo_muebles/images/agotado.png"
+                            alt="">
+                    </div>
+                    <div (click)="quickView()" class="quick-view"
+                        style="width: 200px;height: 200px; position: absolute;z-index: 100;">
+
+
+
+
+                    </div>
+
                     <img style="width: 200px; height: 200px;"
                         src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/443716246_953634143429201_8591976878975697243_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=bEDFhAqwXQ0Q7kNvgHPrKiz&_nc_zt=23&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=AxJzaPkt8yJIuMdJ_2LqO1q&oh=00_AYDfo4dHcCIPdnYcxML4GbH04cPiWTAEk_MA6ymhDM2sQQ&oe=67244F04"
                         alt="">
-
                 </div>
+                <div class="card flex justify-content-center">
+                    <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptionsImg"
+                        [containerStyle]="{'max-width': '100%'}" [numVisible]="9" [circular]="true" [fullScreen]="true"
+                        [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true"
+                        [showIndicatorsOnItem]="true">
+                        <ng-template pTemplate="item" let-item>
+                            <img [src]="item.itemImageSrc" style="width: 500px; display: block;" />
+                        </ng-template>
+                        <ng-template pTemplate="thumbnail" let-item>
+                            <div class="grid grid-nogutter justify-content-center">
+                                <img [src]="item.thumbnailImageSrc" style="display: block;" />
+                            </div>
+                        </ng-template>
+                    </p-galleria>
+                </div>
+
                 <p-card [style]="{height:'170px'}">
                     <div style="font-size:10px ;text-align: center; margin-bottom: 10px;">
                         <div>
@@ -50,9 +78,9 @@
                             </span>
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <p>{{ product.description }}</p>
-                        </div>
+                        </div> -->
                         <div>
                             <span>
                                 {{ product.category.name }}
@@ -61,8 +89,13 @@
 
                     </div>
                     <div style="width: 100%; display: flex; justify-content: center;">
-                        <p-button label="add to cart" icon="pi pi-shopping-cart"
+
+                        <div *ngIf="product.stock > 0">
+                        <p-toast/>
+                        <p-button (click)="addToCart(product.id , 1,product.stock)" label="add to cart" icon="pi pi-shopping-cart"
                             [style]="{width: '170px',fontSize: '10px',height:'5px',backgroundColor:'#4a89ccc6'}"></p-button>
+                        </div>
+
                     </div>
 
                 </p-card>

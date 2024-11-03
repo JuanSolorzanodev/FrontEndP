@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
+import { CartComponent } from '../cart/cart.component';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -19,7 +21,7 @@ import { ButtonModule } from 'primeng/button';
     RouterLink,
     TreeModule,
     MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, CommonModule,SidebarModule,ButtonModule
-  ],
+    ,CartComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -57,7 +59,7 @@ export class NavbarComponent implements OnInit {
             }))
           }
         ];
-        console.log(this.categorias);
+        
       },
       (error) => {
         console.error('Error al obtener las categorías', error);

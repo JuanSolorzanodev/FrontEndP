@@ -1,0 +1,84 @@
+<!-- <p-sidebar [(visible)]="sidebarVisible" position="right">
+    <h3>Right Sidebar</h3>
+</p-sidebar> -->
+<p-sidebar [style]="{width: '40%'}" [(visible)]="sidebarVisible" position="right">
+    <div style="display: flex ;align-items: center;">
+        <h3>Cart Total</h3>
+        <span style="margin-left: 30px; font-size: x-large;">$100</span>
+    </div>
+    
+    <div class="card">
+        <p-dataView #dv [value]="products" [layout]="layout">
+            <ng-template pTemplate="header">
+                <div class="flex justify-content-end">
+                    <p-dataViewLayoutOptions [layout]="layout" />
+                </div>
+                
+            </ng-template>
+            <ng-template pTemplate="list" let-products>
+                <div>
+                    <div class="col-12" *ngFor="let item of products; let first = first" class="col-12">
+                        <div class="flex-container" [ngClass]="{ 'border-top-1 surface-border': !first }">
+                            <div class="md:w-10rem relative">
+                                <img style="width: 100px; height: 100px;"
+                                    class="block xl:block mx-auto border-round w-full"
+                                    src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/443716246_953634143429201_8591976878975697243_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=bEDFhAqwXQ0Q7kNvgHPrKiz&_nc_zt=23&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=AxJzaPkt8yJIuMdJ_2LqO1q&oh=00_AYDfo4dHcCIPdnYcxML4GbH04cPiWTAEk_MA6ymhDM2sQQ&oe=67244F04"
+                                    [alt]="item.name" />
+                                <!-- <p-tag [value]="item.inventoryStatus" [severity]="getSeverity(item)" class="absolute" [style.left.px]="4" [style.top.px]="4" /> -->
+                            </div>
+                            <div class="flex-conatiner-body">
+                                <div
+                                    class="cart-description flex flex-row md:flex-column justify-content-between align-items-start gap-2">
+                                    <div>
+                                        <span class="font-medium text-secondary text-sm">{{ item.category.name }}</span>
+                                        <div class="text-lg font-medium text-900 mt-2">{{ item.name }}</div>
+                                    </div>
+                                    <div class="surface-100 p-1" style="border-radius: 30px ;width: 50px;">
+                                        <div class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
+                                            style="display: flex;justify-content: center;border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
+                                            <span class="text-900 font-medium text-sm">{{ item.stock }}</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cart-price">
+                                    <div>
+                                        <span class="text-xl font-semibold text-900">{{ '$' + item.price }}</span>
+                                        <div>
+
+                                            <div class="input-number-container">
+
+                                                <p-button (click)="decrement(item.stock,item.quantity,item.id)"
+                                                    [style]="{width:'20px',height:'20px',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}"
+                                                    severity="info" icon="pi pi-minus" />
+                                                <input min="1" [max]="item.stock" required [(ngModel)]="item.quantity"
+                                                    class="input-number" type="number" (change)="validateInput(item.stock,item.quantity,item.id)" />
+
+                                                <p-button (click)="increment(item.stock,item.quantity,item.id)"
+                                                    [style]="{width:'20px',height:'20px',borderTopLeftRadius:'0px',borderBottomLeftRadius:'0px'}"
+                                                    severity="primary" icon="pi pi-plus" />
+
+                                            </div>
+                                            <p-button icon="pi pi-trash" [style]="{width:'30px',height:'30px'}"
+                                                [outlined]="true" severity="danger" />
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            
+        </p-dataView>
+    </div>
+</p-sidebar>
+<div>
+    <p-button  (onClick)="getCart()" icon="pi pi-shopping-cart"/>
+    <p-badge [style]="{marginBottom:'20px',position:'absolute', right:'5px',top:'1px'}" [value]="totalProduts" severity="info" />
+</div>
+
+<!-- <i class="pi pi-envelope p-text-secondary" pBadge style="font-size: 2rem" severity="danger"></i> -->
+<!-- <i icon="pi pi-shopping-cart" (onClick)="sidebarVisible = true" class="pi pi-bell text-3xl" pBadge value="2"></i> -->

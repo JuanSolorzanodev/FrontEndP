@@ -1,0 +1,66 @@
+.flex-container{
+ display: flex;
+ justify-content: left;
+}
+
+.flex-conatiner-body{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    
+}
+/* cart.component.css */
+.input-number-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.input-number {
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    margin: 1px 0 0 0;
+    background-color: #4a89cc8d;
+    border: none;
+    outline: none; /* Elimina el borde al hacer foco */
+    appearance: none;
+    color: #ffffff;
+}
+.cart-price{
+    display: flex;
+    justify-content: right;
+    flex: 1;
+    align-items: center;
+}
+.cart-description{
+    margin-left: 10px;
+}
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+     
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.input-number:focus {
+    box-shadow: none; /* Elimina el borde alrededor del input al escribir */
+}
+
+.custom-button {
+    border-top-left-radius: 0; /* Esquina superior izquierda cuadrada */
+    border-bottom-left-radius: 0; /* Esquina inferior izquierda cuadrada */
+    border-top-right-radius: 10px; /* Esquina superior derecha redondeada */
+    border-bottom-right-radius: 10px; /* Esquina inferior derecha redondeada */
+}
+
+.button-success {
+    background-color: #4caf50;
+    color: white;
+}
