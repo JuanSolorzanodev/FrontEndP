@@ -138,8 +138,6 @@ export class HomeComponent implements OnInit {
       }
     ];
     this.productoService.getProducts().subscribe(data => {
-       /* this.products = data;  */
-       /* console.log(data); */
        this.products = data; 
       });
 

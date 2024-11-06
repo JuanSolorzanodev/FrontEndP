@@ -13,9 +13,13 @@ export class ProductoService {
   getProducts(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
-  getProductsWithQuantities(data:any): Observable<any> {
+  getProductsCart(data:any): Observable<any> {
     const payload = data;
     return this.http.post<any>(`${this.apiUrl}/getByIds`, payload);
+  }
+  // Método para obtener los productos en stock
+  getInStockProducts(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/in-stock`);
   }
 }
 

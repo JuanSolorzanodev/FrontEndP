@@ -74,6 +74,13 @@ export class CartService {
   getTotalItems(): number {
     return this.items.length;
   }
+  removeProductCart(validProducts: { id: number, stock: number }[]){
+    // Filtrar los elementos en el carrito que no están en la lista de productos válidos
+    this.items = this.items.filter((item:any) => validProducts.some(product => product.id === item.id));
+    
+    // Actualizar el localStorage con los elementos filtrados
+    localStorage.setItem('cart', JSON.stringify(this.items));
+  }
   clearCart() {
     this.items = [];
     localStorage.removeItem('cart');

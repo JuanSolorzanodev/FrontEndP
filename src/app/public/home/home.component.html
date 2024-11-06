@@ -39,10 +39,6 @@
                     </div>
                     <div (click)="quickView()" class="quick-view"
                         style="width: 200px;height: 200px; position: absolute;z-index: 100;">
-
-
-
-
                     </div>
 
                     <img style="width: 200px; height: 200px;"
@@ -64,7 +60,6 @@
                         </ng-template>
                     </p-galleria>
                 </div>
-
                 <p-card [style]="{height:'170px'}">
                     <div style="font-size:10px ;text-align: center; margin-bottom: 10px;">
                         <div>
@@ -89,19 +84,15 @@
 
                     </div>
                     <div style="width: 100%; display: flex; justify-content: center;">
-
                         <div *ngIf="product.stock > 0">
-                        <p-toast/>
-                        <p-button (click)="addToCart(product.id , 1,product.stock)" label="add to cart" icon="pi pi-shopping-cart"
-                            [style]="{width: '170px',fontSize: '10px',height:'5px',backgroundColor:'#4a89ccc6'}"></p-button>
+                            <p-toast />
+                            <p-button (click)="addToCart(product.id ,1,product.stock)" label="add to cart"
+                                icon="pi pi-shopping-cart"
+                                [style]="{width: '170px',fontSize: '10px',height:'5px',backgroundColor:'#4a89ccc6'}"></p-button>
                         </div>
-
                     </div>
-
                 </p-card>
-
             </div>
-
         </div>
     </div>
 </div>

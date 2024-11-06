@@ -1,24 +1,22 @@
-<!-- <p-sidebar [(visible)]="sidebarVisible" position="right">
-    <h3>Right Sidebar</h3>
-</p-sidebar> -->
 <p-sidebar [style]="{width: '40%'}" [(visible)]="sidebarVisible" position="right">
     <div style="display: flex ;align-items: center;">
         <h3>Cart Total</h3>
         <span style="margin-left: 30px; font-size: x-large;">$100</span>
-    </div>
-    
-    <div class="card">
+    </div>    
+    <div *ngIf="loading == false" class="card">
         <p-dataView #dv [value]="products" [layout]="layout">
             <ng-template pTemplate="header">
                 <div class="flex justify-content-end">
                     <p-dataViewLayoutOptions [layout]="layout" />
-                </div>
-                
+                </div>                
             </ng-template>
+            
             <ng-template pTemplate="list" let-products>
-                <div>
+                <div class="grid grid-nogutter">
+                                      
                     <div class="col-12" *ngFor="let item of products; let first = first" class="col-12">
                         <div class="flex-container" [ngClass]="{ 'border-top-1 surface-border': !first }">
+                             
                             <div class="md:w-10rem relative">
                                 <img style="width: 100px; height: 100px;"
                                     class="block xl:block mx-auto border-round w-full"
@@ -76,7 +74,7 @@
     </div>
 </p-sidebar>
 <div>
-    <p-button  (onClick)="getCart()" icon="pi pi-shopping-cart"/>
+    <p-button  (click)="getCart()" icon="pi pi-shopping-cart"/>
     <p-badge [style]="{marginBottom:'20px',position:'absolute', right:'5px',top:'1px'}" [value]="totalProduts" severity="info" />
 </div>
 
