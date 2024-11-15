@@ -9,6 +9,7 @@
 .container-navbar{
 
     display: flex;
+    /* cursor: pointer; */
 }
 .categoria{
     width: 20%;

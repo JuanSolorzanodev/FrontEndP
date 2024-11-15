@@ -3,22 +3,28 @@
         <p-menubar>
             <ng-template pTemplate="start">
                 <img width="100px"
-                    src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/277748382_675108756794965_7309813779436965160_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=5jDr5eBjSB4Q7kNvgGi5x_w&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=AHhty1T9ZSJKWgMLqODRLcU&oh=00_AYDcbngOUwladIjxsGaNddXkJKcEGzGVEcPqyykVTpwFng&oe=6723717B"
-                    alt="">
-                    <div style="display: inline; margin-left: 30px;" class="card flex justify-content-center">
-                        <p-sidebar [(visible)]="sidebarVisible">
-                            <h3>Categorias</h3>
-                            <div class="card flex justify-content-center">
-                                <p-tree class="w-full md:w-30rem" [value]="categorias" />
-                            </div>
-                        </p-sidebar>
-                        <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
-                    </div>
-            </ng-template>                        
+                    src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/277748382_675108756794965_7309813779436965160_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEnWWb9Ybp3f2zSc38CE_OInmyCwUDCInOebILBQMIic624-sP755XPxu_UGtFJ48KoU_xrGfeLFs59-3r_xe3L&_nc_ohc=mD92oHA-YwAQ7kNvgGsYHSf&_nc_zt=23&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=ABAjSuvdSpG0OYr5Nitie84&oh=00_AYDJ8tnDRlf9NTLFhXV1PG_vkbqKOHL_aY09YwEX9tXsnQ&oe=673B2C7B"
+                    alt="logo">
+                <!-- <img width="100px" src="../../../assets/img/logosurblock.png" alt="logo"> -->
+                <div style="display: inline; margin-left: 30px;" class="card flex justify-content-center">
+                    <p-sidebar [(visible)]="sidebarVisible">
+                        <h3>Categorias</h3>
+                        <div class="card flex justify-content-center">
+                            <p-tree class="w-full md:w-30rem" [value]="categorias" />
+                        </div>
+                        <h3>Admin</h3>
+                        <div class="card flex justify-content-center">
+                            <p-tree [style]="{cursor: 'pointer'}" class="w-full md:w-30rem" [value]="admin"
+                            selectionMode="single" (onNodeSelect)="nodeSelect($event)" ></p-tree>
+                        </div>
+                    </p-sidebar>
+                    <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
+                </div>
+            </ng-template>
             <ng-template pTemplate="item" let-item let-root="root">
 
                 <a pRipple class="flex align-items-center p-menuitem-link">
-                    
+
                     <span [class]="item.icon"></span>
                     <span class="ml-2">{{ item.label }}</span>
                     <p-badge *ngIf="item.badge" [ngClass]="{ 'ml-auto': !root, 'ml-2': root }" [value]="item.badge" />
@@ -32,17 +38,19 @@
             <ng-template pTemplate="end">
                 <div style="display: flex; align-items: center;" class="flex align-items-center gap-2">
                     <input type="text" pInputText placeholder="Search" class="w-8rem sm:w-auto" />
-                    <div style="margin-left: 10px">
-                        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                            shape="circle" />
+                    <div style="margin-left: 10px;">
+                        <button (click)="login()" type="button" class="p-link">
+                            <img style="width: 40px;"
+                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" alt="Profile">
+                        </button>
                     </div>
+
                     <div style="margin-left: 10px;">
                         <app-cart></app-cart>
                     </div>
-                    
                 </div>
             </ng-template>
         </p-menubar>
-       
+
     </div>
 </div>

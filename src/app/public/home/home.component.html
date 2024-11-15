@@ -20,17 +20,13 @@
                     </div>
                 </ng-template>
             </p-carousel>
-
-
         </div>
     </div>
 </div>
 <div style="width: 100%; display: flex; justify-content: center;">
     <div style="width: 70%; height: max-content; display: flex; justify-content: center; align-items: center;">
-
         <div
             style="display: flex; justify-content: center; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-
             <div *ngFor="let product of products" style="width: 200px">
                 <div style="width: 200px; height: 170px; ">
                     <div style="z-index: 1; position: absolute;" *ngIf="product.stock < 1">
@@ -40,9 +36,8 @@
                     <div (click)="quickView()" class="quick-view"
                         style="width: 200px;height: 200px; position: absolute;z-index: 100;">
                     </div>
-
                     <img style="width: 200px; height: 200px;"
-                        src="https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/443716246_953634143429201_8591976878975697243_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=bEDFhAqwXQ0Q7kNvgHPrKiz&_nc_zt=23&_nc_ht=scontent.fpvo2-1.fna&_nc_gid=AxJzaPkt8yJIuMdJ_2LqO1q&oh=00_AYDfo4dHcCIPdnYcxML4GbH04cPiWTAEk_MA6ymhDM2sQQ&oe=67244F04"
+                        src="https://kywiec.vtexassets.com/arquivos/ids/198881-800-auto?v=638536499919300000&width=800&height=auto&aspect=true"
                         alt="">
                 </div>
                 <div class="card flex justify-content-center">
@@ -72,21 +67,16 @@
                                 ${{ product.price }}
                             </span>
                         </div>
-
-                        <!-- <div>
-                            <p>{{ product.description }}</p>
-                        </div> -->
                         <div>
                             <span>
                                 {{ product.category.name }}
                             </span>
                         </div>
-
                     </div>
                     <div style="width: 100%; display: flex; justify-content: center;">
                         <div *ngIf="product.stock > 0">
                             <p-toast />
-                            <p-button (click)="addToCart(product.id ,1,product.stock)" label="add to cart"
+                            <p-button (click)="addToCart(product.id ,1)" label="add to cart"
                                 icon="pi pi-shopping-cart"
                                 [style]="{width: '170px',fontSize: '10px',height:'5px',backgroundColor:'#4a89ccc6'}"></p-button>
                         </div>

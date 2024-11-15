@@ -9,6 +9,13 @@ export const routes: Routes = [
     children: [
       { path: '',loadComponent: () =>
         import('./public/home/home.component').then((c) => c.HomeComponent), },
+      { path: 'admin/products',loadComponent: () =>
+        import('./private/products/products.component').then((c) => c.ProductsComponent), },
     ],
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./public/login/login.component').then((c) => c.LoginComponent),
   },
 ];

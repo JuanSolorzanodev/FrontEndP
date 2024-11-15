@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   displayBasic!: boolean;
 
     images: any = [];
-    
+    stockValor :number = 0;
     responsiveOptionsImg: any[] =  [
       {
           breakpoint: '50px',
@@ -67,16 +67,26 @@ export class HomeComponent implements OnInit {
 ]
 
   }
-  addToCart(productId: number, quantity: number, stock: number) {
-    if(this.cartService.addToCart(productId, quantity,stock) == true){
-      console.log('Producto añadido al carrito:', { id: productId, quantity: quantity });
-    }else{
-      this.showInfo();
-    }   
+  addToCart(productId: number, quantity:number) {
+    this.productoService.getProductStockById(productId).subscribe((data:any) => {
+      this.stockValor = data.stock;
+      if (this.stockValor > 0) {
+        if (this.cartService.addToCart(productId, quantity, this.stockValor) === true) {
+          this.showInfoCart();
+        } else {
+          this.showInfo();
+        }
+      } else {
+        this.getAllProducts();
+        this.showInfo();
+      }
+    });     
   }
-  
   showInfo() {
     this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Stock insuficiente' });
+  }
+  showInfoCart() {
+    this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Producto añadido' });
   }
   carouselShow: any;
   ngOnInit() {
@@ -137,12 +147,14 @@ export class HomeComponent implements OnInit {
         numScroll: 1
       }
     ];
-    this.productoService.getProducts().subscribe(data => {
-       this.products = data; 
-      });
+    this.getAllProducts();
 
   }
-
+  getAllProducts(){
+    this.productoService.getProducts().subscribe(data => {
+      this.products = data; 
+     });
+  }
   getSeverity(status: string): "success" | "secondary" | "info" | "warning" | "danger" | "contrast" | undefined {
     switch (status) {
       case 'INSTOCK':
@@ -155,7 +167,11 @@ export class HomeComponent implements OnInit {
         return undefined; // Cambiado "unknown" por "undefined"
     }
   }
-
-
-
+  
+    
+      
+      
+      
+      
+    
 }
