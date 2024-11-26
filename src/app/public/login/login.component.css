@@ -1,0 +1,16 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+  }
+  
+  .card {
+    width: 400px;
+  }
+  
+  .p-error {
+    color: #f44336;
+  }
+  
