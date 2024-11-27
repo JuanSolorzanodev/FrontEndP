@@ -58,6 +58,7 @@ export class NavbarComponent implements OnInit {
           label: 'new producto',
           data: 'Documents Folder',
           icon: 'pi pi-fw pi-plus',
+          routerLink:['/admin/new-product']
           
         },
         {
