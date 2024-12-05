@@ -1,1 +1,132 @@
-<p>new-product works!</p>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <!-- Nombre del producto -->
+  <div>
+    <label for="name">Nombre del producto:</label>
+    <input id="name" formControlName="name" type="text" required>
+    <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="error">
+      El nombre es obligatorio.
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div>
+    <label for="description">Descripción:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <!-- Precio -->
+  <div>
+    <label for="price">Precio:</label>
+    <input id="price" formControlName="price" type="number" required>
+    <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error">
+      El precio es obligatorio y debe ser un número.
+    </div>
+  </div>
+
+  <!-- Stock -->
+  <div>
+    <label for="stock">Stock:</label>
+    <input id="stock" formControlName="stock" type="number" required>
+    <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" class="error">
+      El stock es obligatorio y debe ser un número entero.
+    </div>
+  </div>
+
+  <!-- SKU -->
+  <div>
+    <label for="SKU">SKU:</label>
+    <input id="SKU" formControlName="SKU" type="text" required>
+    <div *ngIf="productForm.get('SKU')?.invalid && productForm.get('SKU')?.touched" class="error">
+      El SKU es obligatorio.
+    </div>
+  </div>
+
+  <!-- IVA -->
+  <div>
+    <label for="iva">IVA:</label>
+    <input id="iva" formControlName="iva" type="checkbox" [checked]="productForm.get('iva')?.value">
+  </div>
+
+  <!-- Categoría -->
+  <div>
+    <label for="category_id">Categoría:</label>
+    <input id="category_id" formControlName="category_id" type="text" required>
+    <div *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched" class="error">
+      La categoría es obligatoria.
+    </div>
+  </div>
+
+  <!-- Especificaciones -->
+  <h3>Especificaciones del producto</h3>
+
+  <!-- Tipo de empaque -->
+  <div>
+    <label for="packaging_type">Tipo de empaque:</label>
+    <input id="packaging_type" formControlName="packaging_type" type="text">
+  </div>
+
+  <!-- Material -->
+  <div>
+    <label for="material">Material:</label>
+    <input id="material" formControlName="material" type="text">
+  </div>
+
+  <!-- Ubicación de uso -->
+  <div>
+    <label for="usage_location">Ubicación de uso:</label>
+    <input id="usage_location" formControlName="usage_location" type="text">
+  </div>
+
+  <!-- Color -->
+  <div>
+    <label for="color">Color:</label>
+    <input id="color" formControlName="color" type="text">
+  </div>
+
+  <!-- Capacidad de carga -->
+  <div>
+    <label for="load_capacity">Capacidad de carga:</label>
+    <input id="load_capacity" formControlName="load_capacity" type="text">
+  </div>
+
+  <!-- País de origen -->
+  <div>
+    <label for="country_of_origin">País de origen:</label>
+    <input id="country_of_origin" formControlName="country_of_origin" type="text">
+  </div>
+
+  <!-- Garantía -->
+  <div>
+    <label for="warranty">Garantía:</label>
+    <input id="warranty" formControlName="warranty" type="checkbox" [checked]="productForm.get('warranty')?.value">
+  </div>
+
+  <!-- Número de piezas -->
+  <div>
+    <label for="number_of_pieces">Número de piezas:</label>
+    <input id="number_of_pieces" formControlName="number_of_pieces" type="number" min="1">
+  </div>
+
+  <!-- Imágenes del producto -->
+  <div>
+    <label for="images">Imágenes del producto:</label>
+    <input id="images" type="file" (change)="onFileChange($event)" multiple>
+    <div *ngIf="productForm.get('images')?.invalid && productForm.get('images')?.touched" class="error">
+      Solo se permiten imágenes (máximo 3).
+    </div>
+  </div>
+
+  <!-- Mensajes de éxito y error -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Botón para enviar el formulario -->
+  <div>
+    <button type="submit" [disabled]="productForm.invalid">Crear producto</button>
+  </div>
+</form>

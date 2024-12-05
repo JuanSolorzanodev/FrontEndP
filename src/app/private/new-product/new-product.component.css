@@ -1,0 +1,53 @@
+form {
+  max-width: 600px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  display: block;
+}
+
+form input,
+form select,
+form textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.success-message {
+  color: green;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+

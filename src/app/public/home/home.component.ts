@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 import { Message } from 'primeng/api';
+import { Router } from '@angular/router';
 import { MessagesModule } from 'primeng/messages';
 import { GalleriaModule } from 'primeng/galleria';
 @Component({
@@ -48,24 +49,10 @@ export class HomeComponent implements OnInit {
   responsiveOptions: any[] | undefined;
   messages!: any;
 
-  constructor(private productoService: ProductoService, private cartService: CartService,private messageService: MessageService) { }
-  quickView(){
+  constructor(private productoService: ProductoService, private cartService: CartService,private messageService: MessageService,private router: Router) { }
+  quickView(data:any){
     this.displayBasic = true;
-    this.images = [
-      {
-      itemImageSrc: 'https://dogotuls.com.mx/media/imagenes/TK3001-ROJO.jpg',
-      thumbnailImageSrc: 'https://dogotuls.com.mx/media/imagenes/TK3001-ROJO.jpg',
-      alt: 'Description for Image 1',
-      title: 'Title 1'
-  },
-  {
-    itemImageSrc: 'https://m.media-amazon.com/images/I/51BEYqkEhsL.jpg',
-    thumbnailImageSrc: 'https://m.media-amazon.com/images/I/51BEYqkEhsL.jpg',
-    alt: 'Description for Image 1',
-    title: 'Title 2'
-},
-]
-
+    this.images = data;
   }
   addToCart(productId: number, quantity:number) {
     this.productoService.getProductStockById(productId).subscribe((data:any) => {
@@ -148,7 +135,7 @@ export class HomeComponent implements OnInit {
       }
     ];
     this.getAllProducts();
-
+    
   }
   getAllProducts(){
     this.productoService.getProducts().subscribe(data => {
@@ -168,9 +155,15 @@ export class HomeComponent implements OnInit {
     }
   }
   
-    
+  getTopImage() {
+    return this.products.images.find((image:any) => image.top === 1)?.image_path;
+  }
       
-      
+  redirectOverview(){
+
+    this.router.navigate(['/product-overview']);
+
+  }
       
       
     
