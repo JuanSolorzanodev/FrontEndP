@@ -30,7 +30,7 @@
             <div *ngFor="let product of products" style="width: 200px">
                 <div style="width: 200px; height: 170px; ">
                     <div style="z-index: 1; position: absolute;" *ngIf="product.stock < 1">
-                        <img style="width: 80px;" src="https://prueba.iac.com.co/demo_muebles/images/agotado.png"
+                        <img style="width: 80px;" src="img/agotado-banner-diagonal.png"
                             alt="">
                     </div>
                     <div (click)="quickView(product.images)" class="quick-view"
