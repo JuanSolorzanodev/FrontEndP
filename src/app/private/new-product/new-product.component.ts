@@ -1,25 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators,FormsModule,FormControl } from '@angular/forms';
 import { NproductService } from '../../services/nproduct.service';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { CommonModule } from '@angular/common';
+import { FloatLabelModule } from "primeng/floatlabel"
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ButtonModule } from 'primeng/button';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CategoriasService } from '../../services/categoria.service';
+import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
+import { AccordionModule } from 'primeng/accordion';
+import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
-import { CommonModule } from '@angular/common';
-
+import { OrderListModule } from 'primeng/orderlist';
+interface City {
+  name: string;
+  code: string;
+}
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 @Component({
   selector: 'app-new-product',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ToastModule,
-    ButtonModule,
-    CheckboxModule,
+    FloatLabelModule,
     InputTextModule,
-    InputTextareaModule,
+    FormsModule,
     CommonModule,
+    InputTextareaModule,
+    InputNumberModule,
+    DropdownModule,
+    CheckboxModule,
+    AccordionModule,
+    FileUploadModule,
+    ToastModule
+    
+    
   ],
   providers: [MessageService], 
   templateUrl: './new-product.component.html',
@@ -29,15 +49,58 @@ export class NewProductComponent implements OnInit {
  productForm!: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
-
-  constructor(private formBuilder: FormBuilder, private productService: NproductService) { }
+  value: string | undefined;
+  categorias:any;
+  uploadedFiles: any[] = [];
+  checked: boolean = false;
+  cities: City[] | undefined;
+    formGroup: FormGroup | undefined;
+    products!: any;
+  constructor(private formBuilder: FormBuilder, private productService: NproductService,private categoriasService: CategoriasService,private messageService: MessageService) { }
 
   ngOnInit() {
+    this.products =[
+      {
+        id: '1',
+        code: 'f230fh0g3',
+        name: 'Bamboo Watch',
+        description: 'Product Description',
+        image: 'bamboo-watch.jpg',
+        price: 65,
+        category: 'Accessories',
+        quantity: 24,
+        inventoryStatus: 'INSTOCK',
+        rating: 5
+    },
+    {
+      id: '2',
+      code: 'f230fh0g3',
+      name: 'Bamboo Watch',
+      description: 'Product Description',
+      image: 'bamboo-watch.jpg',
+      price: 65,
+      category: 'Accessories',
+      quantity: 24,
+      inventoryStatus: 'INSTOCK',
+      rating: 5
+  }
+    ]
+    this.cities = [
+      { name: 'New York', code: 'NY' },
+      { name: 'Rome', code: 'RM' },
+      { name: 'London', code: 'LDN' },
+      { name: 'Istanbul', code: 'IST' },
+      { name: 'Paris', code: 'PRS' }
+  ];
+
+  this.formGroup = new FormGroup({
+      selectedCity: new FormControl<City | null>(null)
+  });
     this.productForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
       price: ['', Validators.required],
-      stock: ['', Validators.required],
+      stock: ['1', Validators.required],
       SKU: ['', Validators.required],
       iva: [false],
       category_id: ['', Validators.required],
@@ -51,8 +114,39 @@ export class NewProductComponent implements OnInit {
       number_of_pieces: [1],
       images: [] // Para manejar múltiples archivos
     });
+    this.categoriasService.getCategorias().subscribe(
+      (data) => {
+        this.categorias = data;
+          console.log(this.categorias);
+      
+        
+      },
+      (error) => {
+        console.error('Error al obtener las categorías', error);
+      }
+    );
   }
+  /* getSeverity(status: string) {
+    switch (status) {
+        case 'INSTOCK':
+            return 'success';
+        case 'LOWSTOCK':
+            return 'warning';
+        case 'OUTOFSTOCK':
+            return 'danger';
+    }
+} */
+  onUpload(event:any,fileUploader: any) {
+    for(let file of event.files) {
+        this.uploadedFiles.push(file);
+        console.log('entro xd')
+        
+    }
+    // Limpia el fileUpload después de la carga
+    fileUploader.clear();
 
+    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+}
   // Manejo del envío del formulario
   onSubmit() {
     if (this.productForm.invalid) {
@@ -105,8 +199,8 @@ export class NewProductComponent implements OnInit {
     const files: File[] = event.target.files;
 
     // Limitar la cantidad de archivos a 3
-    if (files.length > 3) {
-      alert('Puedes cargar solo un máximo de 3 imágenes.');
+    if (files.length > 6) {
+      alert('Puedes cargar solo un máximo de 5 imágenes.');
       return;
     }
 

@@ -1,65 +1,111 @@
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <div style="display: flex; width: 100%; justify-content: center;">
+    <div style="width: 40%;">
   <!-- Nombre del producto -->
-  <div>
-    <label for="name">Nombre del producto:</label>
-    <input id="name" formControlName="name" type="text" required>
-    <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="error">
-      El nombre es obligatorio.
-    </div>
+  <div class="content-input">
+    <p-floatLabel>
+      <input [ngClass]="{
+        'ng-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched,
+        'ng-dirty': productForm.get('name')?.dirty
+      }"  id="name" type="text" pInputText formControlName="name" />
+      <label for="username">Nombre del producto</label>
+  </p-floatLabel>
   </div>
-
   <!-- Descripción -->
-  <div>
-    <label for="description">Descripción:</label>
-    <textarea id="description" formControlName="description"></textarea>
+  <div class="content-input">
+    <p-floatLabel>
+        <textarea
+            [ngClass]="{'ng-invalid': productForm.get('description')?.invalid && productForm.get('description')?.touched,'ng-dirty': productForm.get('description')?.dirty}"
+            id="float-input" 
+            rows="5"
+            cols="30" 
+            formControlName="description"
+            pInputTextarea>
+        </textarea>
+        <label for="float-input">Descripción</label>
+    </p-floatLabel>
   </div>
-
   <!-- Precio -->
-  <div>
-    <label for="price">Precio:</label>
-    <input id="price" formControlName="price" type="number" required>
-    <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error">
-      El precio es obligatorio y debe ser un número.
+  <div style="display: flex;align-items: center;">
+    <div style="margin-right: 10px;" class="content-input">
+      <label style="color: #797979; font-size: small;" for="username">Price</label>
+        <p-inputNumber 
+        [ngClass]="{'ng-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched,'ng-dirty': productForm.get('price')?.dirty}"
+        formControlName="price"
+        [showButtons]="true" 
+        inputId="stacked" 
+        mode="currency" 
+        currency="USD" />
+    </div>
+    <div  class="content-input">
+      <label style="color: #797979; font-size: small;" for="username">Stock</label>
+      <p-inputNumber
+      [ngClass]="{'ng-invalid': productForm.get('stock')?.invalid && productForm.get('stock')?.touched,'ng-dirty': productForm.get('stock')?.dirty}"
+          min="1"
+          formControlName="stock"
+          [style]="{'width': '3rem'}" 
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          inputId="horizontal"
+          spinnerMode="horizontal"
+          decrementButtonClass="p-button-danger"
+          incrementButtonClass="p-button-success"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"/>
     </div>
   </div>
-
-  <!-- Stock -->
-  <div>
-    <label for="stock">Stock:</label>
-    <input id="stock" formControlName="stock" type="number" required>
-    <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" class="error">
-      El stock es obligatorio y debe ser un número entero.
-    </div>
-  </div>
-
   <!-- SKU -->
-  <div>
-    <label for="SKU">SKU:</label>
-    <input id="SKU" formControlName="SKU" type="text" required>
-    <div *ngIf="productForm.get('SKU')?.invalid && productForm.get('SKU')?.touched" class="error">
-      El SKU es obligatorio.
-    </div>
+  <div class="content-input">
+    <p-floatLabel>
+      <input 
+      [ngClass]="{'ng-invalid': productForm.get('SKU')?.invalid && productForm.get('SKU')?.touched,'ng-dirty': productForm.get('SKU')?.dirty}"
+        id="SKU" type="text" pInputText formControlName="SKU" />
+      <label for="username">SKU</label>
+  </p-floatLabel>
   </div>
-
-  <!-- IVA -->
-  <div>
+  <div style="display: flex; align-items: center;">
+     <!-- IVA -->
+  <!-- <div class="content-input">
     <label for="iva">IVA:</label>
-    <input id="iva" formControlName="iva" type="checkbox" [checked]="productForm.get('iva')?.value">
+    <input 
+    id="iva" formControlName="iva" type="checkbox" [checked]="productForm.get('iva')?.value">
+  </div> -->
+  <div  class="content-input">
+    <p-checkbox
+    [ngClass]="{'ng-invalid': productForm.get('iva')?.invalid && productForm.get('iva')?.touched,'ng-dirty': productForm.get('iva')?.dirty}"
+        formControlName="iva" 
+        [(ngModel)]="checked" 
+        [binary]="true" 
+        inputId="binary" />
+        
   </div>
-
+  <label style="color: #797979; font-size: small; margin: 15px 10px 0 10px;" for="username">IVA</label>
   <!-- Categoría -->
-  <div>
+  <!-- <div>
     <label for="category_id">Categoría:</label>
     <input id="category_id" formControlName="category_id" type="text" required>
     <div *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched" class="error">
       La categoría es obligatoria.
     </div>
+  </div> -->
+  <div style="margin-left: 30px;" class="content-input">
+    <p-dropdown 
+    [ngClass]="{'ng-invalid': productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched,'ng-dirty': productForm.get('category_id')?.dirty}"
+            formControlName="category_id"
+            [style]="{'width': '400px'}"
+            [options]="categorias"
+            optionLabel="name"
+            placeholder="Select a City" />
   </div>
-
+  </div>
+ 
+  
   <!-- Especificaciones -->
-  <h3>Especificaciones del producto</h3>
-
-  <!-- Tipo de empaque -->
+  <div>
+    <p-accordion [activeIndex]="0">
+        <p-accordionTab header="Especificaciones del producto">
+           
+            <!-- Tipo de empaque -->
   <div>
     <label for="packaging_type">Tipo de empaque:</label>
     <input id="packaging_type" formControlName="packaging_type" type="text">
@@ -126,7 +172,65 @@
   </div>
 
   <!-- Botón para enviar el formulario -->
-  <div>
+  <!-- <div>
     <button type="submit" [disabled]="productForm.invalid">Crear producto</button>
-  </div>
+  </div> -->
+        </p-accordionTab>
+    </p-accordion>
+</div>
+</div>
+
+<div style=" margin-top: 100px;">
+  <p-toast />
+  <!-- <p-fileUpload 
+      #fileUploader
+      name="demo[]" 
+      url="https://www.primefaces.org/cdn/api/upload.php" 
+      (onUpload)="onUpload($event, fileUploader)" 
+      [multiple]="true" 
+      accept="image/*" 
+      maxFileSize="1000000">
+          <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                  <li *ngFor="let file of uploadedFiles">
+                      {{ file.name }} - {{ file.size }} bytes
+                  </li>
+              </ul>
+          </ng-template>
+  </p-fileUpload> -->
+  <!-- <p-button label="Submit" icon="pi pi-images" /> -->
+  <!-- <div>
+    <p-orderList 
+        [value]="products" 
+        [listStyle]="{ 'max-height': '30rem' }"
+        header="List of Products" 
+        [dragdrop]="true">
+            <ng-template let-product pTemplate="item">
+                <div class="flex flex-wrap p-2 align-items-center gap-3">
+                    <img 
+                        src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" 
+                        [alt]="product.name" 
+                        class="w-4rem shadow-2 flex-shrink-0 border-round" />
+                            <div class="flex-1 flex flex-column gap-2">
+                                <span class="font-bold">{{ product.name }}</span>
+                                <div class="flex align-items-center gap-2">
+                                    <i class="pi pi-tag text-sm"></i>
+                                    <span>
+                                        {{ product.category }}
+                                    </span>
+                                </div>
+                            </div>
+                    <span class="font-bold text-900">
+                        {{ '$' + product.price }}
+                    </span>
+                </div>
+            </ng-template>
+    </p-orderList>
+</div> -->
+  <!-- Botón para enviar el formulario -->
+  <div style="margin: 100px 0 0 200px;">
+  <p-button label="Crear producto" severity="info"  type="submit" [disabled]="productForm.invalid" />
+</div>
+</div>
+</div>
 </form>

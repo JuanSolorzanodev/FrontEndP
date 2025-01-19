@@ -1,6 +1,6 @@
 form {
-  max-width: 600px;
-  margin: auto;
+  /* max-width: 600px; */
+  /* margin: auto; */
 }
 
 h2 {
@@ -29,7 +29,9 @@ form button {
   padding: 10px;
   cursor: pointer;
 }
-
+.content-input{
+  margin-top: 30px;
+}
 form button:hover {
   background-color: #0056b3;
 }
