@@ -13,7 +13,7 @@ export const routes: Routes = [
         import('./private/products/products.component').then((c) => c.ProductsComponent), },
       { path: 'admin/new-product',loadComponent: () =>
         import('./private/new-product/new-product.component').then((c) => c.NewProductComponent), },
-      { path: 'product-overview',loadComponent: () =>
+      { path: 'product-overview/:id',loadComponent: () =>
         import('./public/product-overview/product-overview.component').then((c) => c.ProductOverviewComponent), },
     ],
   },
@@ -21,5 +21,10 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('./public/login/login.component').then((c) => c.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./public/register/register.component').then((c) => c.RegisterComponent),
   },
 ];

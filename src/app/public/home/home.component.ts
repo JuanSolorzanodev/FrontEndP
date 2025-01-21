@@ -159,9 +159,9 @@ export class HomeComponent implements OnInit {
     return this.products.images.find((image:any) => image.top === 1)?.image_path;
   }
       
-  redirectOverview(){
+  redirectOverview(productId: number){
 
-    this.router.navigate(['/product-overview']);
+    this.router.navigate(['/product-overview',productId]);
 
   }
       

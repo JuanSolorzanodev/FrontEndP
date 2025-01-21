@@ -1,0 +1,10 @@
+.gallery-item-image {
+  width: 100%;
+  min-height: 420px;
+  display: block;
+}
+
+.gallery-thumbnail-image {
+  max-width: 100px; /* Ejemplo de tamaño */
+  border-radius: 5px; /* Ejemplo de borde redondeado */
+}
