@@ -27,10 +27,9 @@ export class ProductoService {
     return this.http.get<any>(`${this.apiUrl}/${productId}/stock`);
   }
 
-
-
-
-
+  getProductDetails(productId: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${productId}/details`);
+  }
  
 }
 

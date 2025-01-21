@@ -8,6 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,9 @@ import { CommonModule } from '@angular/common';
     PasswordModule,
     ButtonModule,
     CardModule,
-    ProgressSpinnerModule,],
+    ProgressSpinnerModule,
+    FloatLabelModule,
+     RippleModule,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

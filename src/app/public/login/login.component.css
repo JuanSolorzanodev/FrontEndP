@@ -1,16 +1,9 @@
 .login-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
-  }
-  
-  .card {
-    width: 400px;
-  }
-  
-  .p-error {
-    color: #f44336;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Centrado vertical y ocupa toda la pantalla */
+  background-color: #f5f5f5; /* Fondo opcional */
+}
+
+
