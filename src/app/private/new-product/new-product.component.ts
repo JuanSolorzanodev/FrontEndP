@@ -14,6 +14,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { OrderListModule } from 'primeng/orderlist';
+/* import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'; */
 interface City {
   name: string;
   code: string;
@@ -37,7 +38,7 @@ interface UploadEvent {
     CheckboxModule,
     AccordionModule,
     FileUploadModule,
-    ToastModule
+    ToastModule,
     
     
   ],
@@ -56,7 +57,7 @@ export class NewProductComponent implements OnInit {
   cities: City[] | undefined;
     formGroup: FormGroup | undefined;
     products!: any;
-  constructor(private formBuilder: FormBuilder, private productService: NproductService,private categoriasService: CategoriasService,private messageService: MessageService) { }
+  constructor(private formBuilder: FormBuilder, private productService: NproductService,private categoriasService: CategoriasService) { }
 
   ngOnInit() {
     this.products =[
@@ -136,16 +137,22 @@ export class NewProductComponent implements OnInit {
             return 'danger';
     }
 } */
-  onUpload(event:any,fileUploader: any) {
+    
+  onUpload(event:any) {
     for(let file of event.files) {
         this.uploadedFiles.push(file);
         console.log('entro xd')
         
     }
+    
     // Limpia el fileUpload después de la carga
-    fileUploader.clear();
+    /* fileUploader.clear(); */
 
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    /* this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''}); */
+}
+resetFileUpload(fileUpload: any) {
+  this.uploadedFiles = []; // Limpiar la lista de archivos subidos
+  fileUpload.clear(); // Reiniciar el componente FileUpload
 }
   // Manejo del envío del formulario
   onSubmit() {
