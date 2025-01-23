@@ -1,10 +1,27 @@
 .gallery-item-image {
-  width: 100%;
-  min-height: 420px;
+  width: 600px;
+  height: 600px;
   display: block;
 }
 
 .gallery-thumbnail-image {
   max-width: 100px; /* Ejemplo de tamaño */
   border-radius: 5px; /* Ejemplo de borde redondeado */
+}
+
+button {
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #166bb7;
+}
+
+.input-number-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }

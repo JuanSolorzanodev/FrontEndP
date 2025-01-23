@@ -9,11 +9,13 @@ import { FormsModule } from '@angular/forms';
 import { GalleriaModule } from 'primeng/galleria';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextModule } from 'primeng/inputtext';
+import { TabViewModule } from 'primeng/tabview';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-overview',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, DividerModule, GalleriaModule, RadioButtonModule, FormsModule, InputTextModule],
+  imports: [TabViewModule, CommonModule, CardModule, ButtonModule, DividerModule, GalleriaModule, RadioButtonModule, FormsModule, InputTextModule,],
   templateUrl: './product-overview.component.html',
   styleUrls: ['./product-overview.component.css'],
 })
@@ -39,7 +41,8 @@ export class ProductOverviewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productoService: ProductoService
+    private productoService: ProductoService,
+    private cartService: CartService,
   ) {}
 
   ngOnInit() {
@@ -84,5 +87,84 @@ export class ProductOverviewComponent implements OnInit {
       },
     });
   }
+
+  quantity: number = 1;
+  stockValor :number = 0;
+  cartProducts!: any;
+  products!: any;
+  increaseQuantity() {
+    if (this.productSpecifications?.data?.stock && this.quantity < this.productSpecifications.data.stock) {
+      this.quantity++;
+    }
+  }
+  
+  decreaseQuantity() {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
+  
+  addToCart(productId: number, quantity:number) {
+    this.productoService.getProductStockById(productId).subscribe((data:any) => {
+      this.stockValor = data.stock;
+      if (this.stockValor > 0) {
+        if (this.cartService.addToCart(productId, quantity, this.stockValor) === true) {
+          // this.showInfoCart();
+        } else {
+          // this.showInfo();
+        }
+      } else {
+        // this.getAllProducts();
+        // this.showInfo();
+      }
+    });     
+  }
+
+  updateCart(productId: number, quantity: number, stock: number) {
+    if (this.cartService.updateCart(productId, quantity, stock) == true) {
+      console.log('Producto añadido al carrito:', { id: productId, quantity: quantity });
+    } else {
+      /* this.showInfo(); */
+    }
+  }
+
+  getProductsByIds() {
+    
+    this.productoService.getProductsCart(this.cartProducts).subscribe(
+      response => {
+        this.products = response;
+        // this.loading = false;
+        // this.sidebarVisible = true
+      },
+      error => {
+        console.error('Error fetching products:', error);
+      }
+    );
+    
+  }
+
+  getCart() {
+    // this.loadInStockProducts();
+    this.cartProducts = this.cartService.getItems();
+    this.getProductsByIds();
+  }
+
+  increment(stock: number, quantity: number, id: number) {
+    if (quantity < stock) {
+      quantity += 1;
+      this.updateCart(id, quantity, stock);
+      this.getCart();
+    }
+  }
+
+  decrement(stock: number, quantity: number, id: number) {
+    if (quantity > 1) {
+      quantity -= 1;
+      this.updateCart(id, quantity, stock);
+      this.getCart();
+    }
+  }
+
+
 
 }
