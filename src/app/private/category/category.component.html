@@ -1,0 +1,85 @@
+<div class="card">
+    <p-table
+      [value]="categorias"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [responsiveLayout]="'scroll'"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-categoria>
+        <tr>
+          <td>{{ categoria.name }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="editCategoria(categoria)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger"
+              (click)="deleteCategoria(categoria)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <button
+      pButton
+      label="Nueva Categoría"
+      icon="pi pi-plus"
+      class="p-mt-3"
+      (click)="openNew()"
+    ></button>
+  </div>
+  
+  <p-dialog
+    [(visible)]="categoriaDialog"
+    header="Categoría"
+    [modal]="true"
+    [style]="{ width: '30vw' }"
+    [closable]="false"
+  >
+    <div class="p-fluid">
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input
+          id="name"
+          type="text"
+          pInputText
+          [(ngModel)]="categoria.name"
+          [ngClass]="{ 'p-invalid': submitted && !categoria.name }"
+        />
+        <small *ngIf="submitted && !categoria.name" class="p-error">
+          El nombre es obligatorio
+        </small>
+      </div>
+    </div>
+  
+    <p-footer>
+      <button
+        pButton
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="categoriaDialog = false"
+      ></button>
+      <button
+        pButton
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveCategoria()"
+      ></button>
+    </p-footer>
+  </p-dialog>
+  

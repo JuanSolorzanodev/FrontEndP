@@ -54,6 +54,13 @@ export class NavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-user',
       children: [
         {
+          key: 'category list',
+          label: 'Category',
+          data: 'Documents Folder',
+          icon: 'pi pi-fw pi-pencil',
+          routerLink:['/admin/category']
+        },
+        {
           key: '0-0',
           label: 'new producto',
           data: 'Documents Folder',
@@ -69,18 +76,19 @@ export class NavbarComponent implements OnInit {
           routerLink:['/admin/products']
         },
 
+
       ]
       }
   ]
     this.categoriasService.getCategorias().subscribe(
-      (data) => {
+      (data:any) => {
         this.categorias = [
           {
             key: '0',
             label: 'categorias',
             data: 'Categoria Folder',
             icon: 'pi pi-fw pi-inbox',
-            children: data.map((categoria:any) => ({
+            children: data.data.map((categoria:any) => ({
               key: String(categoria.id),
               label: categoria.name,
               data: `${categoria.name} Folder`,

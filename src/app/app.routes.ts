@@ -15,6 +15,8 @@ export const routes: Routes = [
         import('./private/new-product/new-product.component').then((c) => c.NewProductComponent), },
       { path: 'product-overview/:id',loadComponent: () =>
         import('./public/product-overview/product-overview.component').then((c) => c.ProductOverviewComponent), },
+      { path: 'admin/category',loadComponent: () =>
+        import('./private/category/category.component').then((c) => c.CategoryComponent), },
     ],
   },
   {
