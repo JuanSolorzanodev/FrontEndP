@@ -15,6 +15,12 @@ export class UserService {
     return this.http.get(this.apiUrl);
   }
 
+
+  // Editar usuario[id]
+  updateUser(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
+  }
+
   // Eliminar un usuario (Soft Delete)
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
