@@ -1,0 +1,56 @@
+<div class="card">
+    <p-table [value]="images" [tableStyle]="{ 'min-width': '50rem' }" [responsiveLayout]="'scroll'">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Vista previa</th>
+          <th>URL</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-image>
+        <tr>
+          <td><img [src]="image.image_path" alt="imagen" width="100" /></td>
+          <td>{{ image.image_path }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              (click)="deleteImage(image)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-undo"
+              class="p-button-rounded p-button-success"
+              (click)="restoreImage(image)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <button
+      pButton
+      label="Subir Imágenes"
+      icon="pi pi-upload"
+      class="p-mt-3"
+      (click)="openUploadDialog()"
+    ></button>
+  
+    <p-dialog [(visible)]="uploadDialog" header="Subir Imágenes" [modal]="true" [style]="{ width: '50vw' }">
+      <p-fileUpload
+        name="files[]"
+        url="#"
+        accept="image/*"
+        maxFileSize="2000000"
+        customUpload
+        (uploadHandler)="uploadImages($event)"
+      ></p-fileUpload>
+      <p-footer>
+        <button pButton label="Cerrar" icon="pi pi-times" (click)="uploadDialog = false"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+  

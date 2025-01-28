@@ -17,6 +17,10 @@ export const routes: Routes = [
         import('./public/product-overview/product-overview.component').then((c) => c.ProductOverviewComponent), },
       { path: 'admin/category',loadComponent: () =>
         import('./private/category/category.component').then((c) => c.CategoryComponent), },
+      { path: 'admin/carousel',loadComponent: () =>
+        import('./private/carousel/carousel.component').then((c) => c.CarouselComponent), },
+      { path: 'admin/user',loadComponent: () =>
+        import('./private/user/user.component').then((c) => c.UserComponent), },
     ],
   },
   {

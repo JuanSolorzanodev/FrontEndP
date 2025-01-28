@@ -122,8 +122,8 @@ export class NewProductComponent implements OnInit {
       images: [[], [this.validateArrayLength(1, 6)]],// Para manejar múltiples archivos
     });
     this.categoriasService.getCategorias().subscribe(
-      (data) => {
-        this.categorias = data;
+      (data:any) => {
+        this.categorias = data.data;
         console.log(this.categorias);
 
 

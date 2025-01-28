@@ -6,7 +6,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,ConfirmDialogModule,
-    
    ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

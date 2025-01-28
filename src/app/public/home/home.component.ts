@@ -13,6 +13,7 @@ import { Message } from 'primeng/api';
 import { Router } from '@angular/router';
 import { MessagesModule } from 'primeng/messages';
 import { GalleriaModule } from 'primeng/galleria';
+import { CarouselService } from '../../services/carousel.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit {
   responsiveOptions: any[] | undefined;
   messages!: any;
 
-  constructor(private productoService: ProductoService, private cartService: CartService,private messageService: MessageService,private router: Router) { }
+  constructor( private carouselService: CarouselService,private productoService: ProductoService, private cartService: CartService,private messageService: MessageService,private router: Router) { }
   quickView(data:any){
     this.displayBasic = true;
     this.images = data;
@@ -76,46 +77,10 @@ export class HomeComponent implements OnInit {
     this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Producto añadido' });
   }
   carouselShow: any;
+  
   ngOnInit() {
     this.messages = [{ severity: 'info', detail: 'Stock Agotado' }];
-    this.carouselShow = [
-      {
-        id: '1',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      },
-      {
-        id: '2',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      },
-      {
-        id: '3',
-        code: 'f230fh0g3',
-        name: 'Bamboo Watch',
-        description: 'Product Description',
-        image: 'bamboo-watch.jpg',
-        price: 65,
-        category: 'Accessories',
-        quantity: 24,
-        inventoryStatus: 'INSTOCK',
-        rating: 5
-      },
-    ];
+    this.getCarrousel();
 
     this.responsiveOptions = [
       {
@@ -164,7 +129,20 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/product-overview',productId]);
 
   }
-      
+  getCarrousel(){
+    this.carouselService.getImages().subscribe({
+      next: (response: any) => {
+        // Asignar las imágenes al carrusel
+        this.carouselShow=response;
+        // this.carouselShow = response.map((image: any) => ({
+        //   image_path: image.image_path, // Asegúrate de que esta propiedad existe en la respuesta
+        // }));
+      },
+      error: (err) => {
+        console.error('Error al cargar las imágenes del carrusel:', err);
+      },
+    });
+  }
       
     
 }

@@ -26,7 +26,8 @@ import { CartComponent } from '../cart/cart.component';
 })
 export class NavbarComponent implements OnInit {
   categorias: any[] = [];
-  admin:any[] = []
+  store:any[] = []
+  user:any[] = []
   selectedFile!: TreeNode;
   items!: MenuItem[];
   constructor(private categoriasService: CategoriasService,private router: Router) {}
@@ -46,22 +47,22 @@ export class NavbarComponent implements OnInit {
           badge: '3'
       }
   ];
-  this.admin = [
+  this.store = [
     {
       key: '0',
-      label: 'admin',
+      label: 'store',
       data: 'Documents Folder',
       icon: 'pi pi-fw pi-user',
       children: [
         {
-          key: 'category list',
+          key: '0-0',
           label: 'Category',
           data: 'Documents Folder',
           icon: 'pi pi-fw pi-pencil',
           routerLink:['/admin/category']
         },
         {
-          key: '0-0',
+          key: '0-1',
           label: 'new producto',
           data: 'Documents Folder',
           icon: 'pi pi-fw pi-plus',
@@ -69,14 +70,41 @@ export class NavbarComponent implements OnInit {
           
         },
         {
-          key: 'producto list',
+          key: '0-2',
           label: 'Productos',
           data: 'Documents Folder',
           icon: 'pi pi-fw pi-pencil',
           routerLink:['/admin/products']
         },
+        {
+          key: '0-3',
+          label: 'Carousel',
+          data: 'Documents Folder',
+          icon: 'pi pi-fw pi-pencil',
+          routerLink:['/admin/carousel']
+        },
+        
 
 
+
+      ]
+      }
+  ]
+  this.user = [
+    {
+      key: '0',
+      label: 'user',
+      data: 'Documents Folder',
+      icon: 'pi pi-fw pi-user',
+      children: [
+        {
+          key: '0-0',
+          label: 'users_lists',
+          data: 'Documents Folder',
+          icon: 'pi pi-fw pi-pencil',
+          routerLink:['/admin/user']
+        },
+        
       ]
       }
   ]

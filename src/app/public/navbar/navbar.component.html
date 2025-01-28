@@ -8,15 +8,26 @@
                 <!-- <img width="100px" src="../../../assets/img/logosurblock.png" alt="logo"> -->
                 <div style="display: inline; margin-left: 30px;" class="card flex justify-content-center">
                     <p-sidebar [(visible)]="sidebarVisible">
-                        <h3>Categorias</h3>
-                        <div class="card flex justify-content-center">
-                            <p-tree class="w-full md:w-30rem" [value]="categorias" />
+                        <div>
+                            <h3>Categorias</h3>
+                            <div class="card flex justify-content-center">
+                                <p-tree class="w-full md:w-30rem" [value]="categorias" />
+                            </div>
+
                         </div>
-                        <h3>Admin</h3>
-                        <div class="card flex justify-content-center">
-                            <p-tree [style]="{cursor: 'pointer'}" class="w-full md:w-30rem" [value]="admin"
-                            selectionMode="single" (onNodeSelect)="nodeSelect($event)" ></p-tree>
+                      
+                        <div>
+                            <h3>Admin</h3>
+                            <div class="card flex justify-content-center">
+                                <p-tree [style]="{cursor: 'pointer'}" class="w-full md:w-30rem" [value]="store"
+                                selectionMode="single" (onNodeSelect)="nodeSelect($event)" ></p-tree>
+                            </div>
+                            <div class="card flex justify-content-center">
+                                <p-tree [style]="{cursor: 'pointer'}" class="w-full md:w-30rem" [value]="user"
+                                selectionMode="single" (onNodeSelect)="nodeSelect($event)" ></p-tree>
+                            </div>
                         </div>
+                        
                     </p-sidebar>
                     <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
                 </div>
