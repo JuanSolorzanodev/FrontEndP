@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -10,6 +10,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-login',
@@ -23,9 +24,12 @@ import { RippleModule } from 'primeng/ripple';
     CardModule,
     ProgressSpinnerModule,
     FloatLabelModule,
-     RippleModule,],
+    RippleModule,
+    RouterModule,
+    ToastModule
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -54,8 +58,8 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (response) => {
         console.log(response);
-       localStorage.setItem('authToken', response.token); // Guardar token en localStorage
-       this.router.navigate(['']); // Redirige después de iniciar sesión
+        localStorage.setItem('authToken', response.token); // Guardar token en localStorage
+        this.router.navigate(['']); // Redirige después de iniciar sesión
       },
       error: (err) => {
         this.errorMessage = err.error.message || 'Error de autenticación';

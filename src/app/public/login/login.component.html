@@ -1,64 +1,64 @@
-<div class="login-container">
-  <div >
-    <h2 >Iniciar Sesión</h2>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-      <!-- Email -->
-      <div>
-        <p-floatLabel>
-          <input
-            id="email"
-            type="email"
-            pInputText
-            formControlName="email"
-          />
-          <label for="email">Correo Electrónico</label>
-        </p-floatLabel>
-        <small
-          *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-          class="p-error"
-        >
-          El correo es obligatorio y debe ser válido.
-        </small>
+<div style="position: fixed; z-index: -100;">
+  <img style="width: 100%;" src="img/fondo_register.jpg" alt="">
+</div>
+<div style="background-color: #0000006e;" class="login-container">
+  <p-card styleClass="login-card">
+    <!-- Encabezado de la Card -->
+    <ng-template pTemplate="header">
+      <div class="card-header">
+        <h2>Iniciar Sesión</h2>
       </div>
+    </ng-template>
 
-      <!-- Contraseña -->
-      <div style="margin: 5% 0 5% 0 ;">
-        <p-floatLabel>
-          <p-password
-            id="password"
-            formControlName="password"
-            [feedback]="false"
-            
-          ></p-password>
-          <label for="password">Contraseña</label>
-        </p-floatLabel>
-        <small
-          *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-          class="p-error"
-        >
-          La contraseña es obligatoria y debe tener al menos 6 caracteres.
-        </small>
+    <!-- Contenido de la Card -->
+    <ng-template pTemplate="content">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid">
+          <!-- Campo Correo Electrónico -->
+          <div class="p-field">
+            <label for="email">Correo Electrónico</label>
+            <span class="p-input-icon-left">
+              <i class="pi pi-envelope"></i>
+              <input id="email" type="email" pInputText formControlName="email" placeholder="Correo Electrónico" />
+            </span>
+            <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="p-error">
+              Ingresa un correo válido.
+            </small>
+          </div>
+
+          <!-- Campo Contraseña -->
+          <div class="p-field">
+            <label for="password">Contraseña</label>
+            <span class="p-input-icon-left">
+              <i class="pi pi-lock"></i>
+              <p-password id="password" formControlName="password" [toggleMask]="true" placeholder="Contraseña"></p-password>
+            </span>
+            <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="p-error">
+              La contraseña debe tener al menos 6 caracteres.
+            </small>
+          </div>
+
+          <!-- Botón de Login -->
+          <div class="p-field">
+            <button pButton type="submit" label="Iniciar Sesión" class="p-button-success p-button-lg" [disabled]="loginForm.invalid || loading" [loading]="loading"></button>
+          </div>
+
+          <!-- Mensaje de Error -->
+          <div class="error-message" *ngIf="errorMessage">
+            <small class="p-error">{{ errorMessage }}</small>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+
+    <!-- Pie de la Card -->
+    <ng-template pTemplate="footer">
+      <div class="card-footer">
+        <small>¿No tienes una cuenta? <a routerLink="/register">Regístrate <i class="pi pi-arrow-right"></i></a></small>
       </div>
+    </ng-template>
+  </p-card>
 
-      <!-- Botón de Login -->
-      <div>
-        <button
-          pButton
-          pRipple
-          label="Iniciar Sesión"
-          class="p-button-success p-button-lg"
-          type="submit"
-          [disabled]="loginForm.invalid || loading"
-          [loading]="loading">
-        </button>
-      </div>
-
-
-      <!-- Mensaje de error -->
-      <div *ngIf="errorMessage" >
-        <small class="p-error">{{ errorMessage }}</small>
-      </div>
-    </form>
-  </div>
+  <!-- Componente Toast para notificaciones -->
+  <p-toast></p-toast>
 </div>

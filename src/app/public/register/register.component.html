@@ -1,91 +1,82 @@
-<div class="register-form ">
-  <div >
-    <h2 style=" text-align: center;" >Registro</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-      <div >
-        <!-- Nombre -->
-        <div  >
-          <p-floatLabel>
-            <input
-              id="name"
-              type="text"
-              pInputText
-              formControlName="name"
-              class="p-inputtext-lg"
-            />
-            <label for="name">Nombre</label>
-          </p-floatLabel>
-          <small
-            *ngIf="
-              registerForm.controls['name'].invalid &&
-              registerForm.controls['name'].touched
-            "
-            class="p-error"
-          >
-            El nombre es obligatorio y debe tener al menos 3 caracteres.
-          </small>
-        </div>
-
-        <!-- Correo Electrónico -->
-        <div style="margin: 5% 0 5% 0 ;">
-          <p-floatLabel>
-            <input
-              id="email"
-              type="email"
-              pInputText
-              formControlName="email"
-              class="p-inputtext-lg"
-            />
-            <label for="email">Correo Electrónico</label>
-          </p-floatLabel>
-          <small
-            *ngIf="
-              registerForm.controls['email'].invalid &&
-              registerForm.controls['email'].touched
-            "
-            class="p-error"
-          >
-            Ingresa un correo válido.
-          </small>
-        </div>
-
-        <!-- Contraseña -->
-        <div style="margin: 5% 0 5% 0 ;" >
-          <p-floatLabel>
-            <input
-              id="password"
-              type="password"
-              pInputText
-              formControlName="password"
-              class="p-inputtext-lg"
-            />
-            <label for="password">Contraseña</label>
-          </p-floatLabel>
-          <small
-            *ngIf="
-              registerForm.controls['password'].invalid &&
-              registerForm.controls['password'].touched
-            "
-            class="p-error"
-          >
-            La contraseña debe tener al menos 6 caracteres.
-          </small>
-        </div>
-
-        <!-- Botón de registro -->
-        <div >
-          <button
-            pButton
-            pRipple
-            label="Registrar"
-            class="p-button-success p-button-lg"
-            type="submit"
-            [disabled]="registerForm.invalid"
-          >
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-  <p-toast></p-toast>
+<div style="position: fixed; z-index: -100;">
+  <img style="width: 100%;" src="img/fondo_login.jpg" alt="">
 </div>
+
+ 
+  <div class="register-container" style="background-color: #0000006e;">
+      <p-card styleClass="register-card">
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <h2>Crear Cuenta</h2>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="content">
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <div class="p-fluid">
+              <!-- Campo Nombre -->
+              <div class="field">
+                <label for="name">Nombre</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-user"></i>
+                  <input id="name" type="text" pInputText formControlName="name" placeholder="Nombre" />
+                </span>
+              </div>
+
+              <!-- Campo Correo Electrónico -->
+              <div class="field">
+                <label for="email">Correo Electrónico</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-envelope"></i>
+                  <input id="email" type="email" pInputText formControlName="email" placeholder="Correo Electrónico" />
+                </span>
+              </div>
+
+              <!-- Campo Teléfono -->
+              <div class="field">
+                <label for="phone">Teléfono</label>
+                <div class="p-inputgroup">
+                  <!-- Selección de Código de País -->
+                  <p-dropdown 
+                    optionLabel="name"
+                    [filter]="true"
+                    [options]="countryCodes"  
+                    optionValue="phoneCode" 
+                    formControlName="countryCode"
+                    placeholder="Selecciona un país"
+                    [style]="{'width': '150px'}">
+                  </p-dropdown>
+                  <!-- <p-dropdown [ngClass]="{
+                    'ng-invalid': productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched,
+                    'ng-dirty': productForm.get('category_id')?.dirty
+                  }" formControlName="category_id" [style]="{ 'width': '400px' }" [options]="categorias" optionLabel="name"
+                            optionValue="id" placeholder="Select a Category">
+                          </p-dropdown> -->
+
+                  <input id="phone" type="text" pInputText formControlName="phone" placeholder="Número de Teléfono" />
+                </div>
+              </div>
+
+              <!-- Campo Contraseña -->
+              <div class="field">
+                <label for="password">Contraseña</label>
+                <p-password id="password" formControlName="password" [toggleMask]="true" placeholder="Contraseña"></p-password>
+              </div>
+
+              <!-- Botón de Registro -->
+              <div  class="field">
+                <p-button label="Registar"  type="submit"  [disabled]="registerForm.invalid"></p-button>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+          <div class="card-footer">
+            <small>¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a></small>
+          </div>
+        </ng-template>
+      </p-card>
+      <p-toast></p-toast>
+    </div>
+  

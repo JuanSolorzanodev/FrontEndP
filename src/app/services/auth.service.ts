@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; // Cambia según tu base URL
+  private apiUrl = 'http://localhost:8000/api'; 
 
   constructor(private http: HttpClient) {}
 
@@ -16,9 +16,9 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, payload);
   }
 
-  // Método para registrar
-  register(name: string, email: string, password: string): Observable<any> {
-    const payload = { name, email, password };
+  // Método para registrar (incluye phone)
+  register(name: string, email: string, phone: string, password: string): Observable<any> {
+    const payload = { name, email, phone, password };
     return this.http.post<any>(`${this.apiUrl}/register`, payload);
   }
 }

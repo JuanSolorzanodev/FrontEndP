@@ -5,6 +5,8 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Email</th>
+        <th>phone</th>
+        <th>rol</th> 
         <th>Contraseña</th>
         <th>Acciones</th>
       </tr>
@@ -14,6 +16,8 @@
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.role.name }}</td>  
         <td>
           <span *ngIf="!user.showPassword">*****</span>
           <span *ngIf="user.showPassword">{{ user.password }}</span>
@@ -32,7 +36,7 @@
 </div>
 
 <!-- Diálogo de Edición -->
-<p-dialog [(visible)]="editDialogVisible" header="Editar Usuario" [modal]="true" [style]="{ width: '30vw' }" [closable]="false">
+<p-dialog [(visible)]="editDialogVisible" header="Editar Usuario" [modal]="true" [style]="{ width: '50vw', height: '100vw'}" [closable]="false">
   <div class="p-fluid">
     <div class="p-field">
       <label for="name">Nombre</label>
@@ -43,6 +47,43 @@
       <label for="email">Email</label>
       <input id="email" type="email" pInputText [(ngModel)]="selectedUser.email" class="p-inputtext p-component"/>
     </div>
+
+
+    <!-- <div class="p-field">
+      <label for="name">Rol</label>
+      <input id="name" type="text" pInputText [(ngModel)]="selectedUser.name" class="p-inputtext p-component"/>
+    </div> -->
+
+    <div class="card flex justify-content-center">
+      <p-dropdown 
+          [options]="roles" 
+          [(ngModel)]="selectedUser.role"
+          optionLabel="name"
+          optionValue="id" 
+          placeholder="Select a City" />
+    </div>
+
+    <div style="display: flex;">
+      <p-dropdown 
+      optionLabel="name"
+      [filter]="true"
+      [options]="countryCodes"  
+      [(ngModel)]="selectedUser.phone"
+      optionValue="phoneCode" 
+      placeholder="Selecciona un país"
+      [style]="{'width': '150px'}">
+    </p-dropdown>
+
+    <div class="p-field">
+      <label for="name">Phone</label>
+      <input id="name" type="text" pInputText [(ngModel)]="selectedUser.phone" class="p-inputtext p-component"/>
+    </div>
+
+
+    </div>
+
+
+       
   </div>
 
   <p-footer class="flex justify-content-end">

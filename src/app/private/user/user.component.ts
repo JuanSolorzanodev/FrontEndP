@@ -9,6 +9,10 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 
+import { RolesService } from '../../services/roles.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { CountryCodeService } from '../../services/country-code.service';
+
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -20,6 +24,8 @@ import { FormsModule } from '@angular/forms';
     DialogModule,
     ToastModule,
     FormsModule,
+    DropdownModule,
+    
   ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
@@ -29,14 +35,19 @@ export class UserComponent {
   editDialogVisible = false; // Control del diálogo de edición
   selectedUser: any = {}; // Usuario seleccionado para editar
 
+
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private rolesService: RolesService,
+    private countryService: CountryCodeService,
   ) {}
 
   ngOnInit(): void {
     this.loadUsers();
+    this.loadRoles(); 
+    this.getcountries();
   }
 
   // Cargar todos los usuarios
@@ -50,12 +61,36 @@ export class UserComponent {
       }
     );
   }
+roles!:any;
+selectedCity!:any;
+countryCodes!:any;
+  loadRoles(): void {
+    this.rolesService.getRoles().subscribe(
+      (data) => {
+        this.roles = data; // Asumiendo que la respuesta es { data: [roles] }
+        console.log(this.roles);
+      },
+      (error) => {
+        console.error('Error al cargar los roles:', error);
+      }
+    );
+  }
 
   // Abrir diálogo de edición
   openEditDialog(user: any): void {
-    this.selectedUser = { id: user.id, name: user.name, email: user.email }; // No incluimos la contraseña
+    this.selectedUser = { id: user.id, name: user.name, email: user.email, phone: user.phone, role: user.role }; // No incluimos la contraseña
+    console.log(user);
     this.editDialogVisible = true;
   }
+
+  getcountries(): void {
+    this.countryService.getCountryCodes().subscribe(data => {
+      this.countryCodes = data;
+      console.log(this.countryCodes);
+    });
+  }
+
+
 
   // Alternar visibilidad de la contraseña en la tabla
   togglePassword(user: any): void {
