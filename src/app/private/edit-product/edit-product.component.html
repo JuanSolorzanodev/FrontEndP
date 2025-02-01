@@ -1,5 +1,313 @@
-<div>
-    <h2>Edit Product</h2>
-    <p>Editing product with ID: {{ productId }}</p>
-    <!-- Aquí puedes agregar más lógica para editar el producto -->
+<p>Editing product with ID: {{ productId }}</p>
+<form [formGroup]="productForm" >
+  <div style="display: flex; width: 100%; justify-content: center;">
+    <div style="width: 60%;">
+      <!-- Nombre del producto -->
+      <div class="content-input">
+        <p-floatLabel>
+          <input [ngClass]="{
+        'ng-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched,
+        'ng-dirty': productForm.get('name')?.dirty
+      }" id="name" type="text" pInputText formControlName="name" />
+          <label for="username">Nombre del producto</label>
+        </p-floatLabel>
+      </div>
+      <!-- Descripción -->
+      <div class="content-input">
+        <p-floatLabel>
+          <textarea
+            [ngClass]="{'ng-invalid': productForm.get('description')?.invalid && productForm.get('description')?.touched,'ng-dirty': productForm.get('description')?.dirty}"
+            id="float-input" rows="5" cols="30" formControlName="description" pInputTextarea>
+        </textarea>
+          <label for="float-input">Descripción</label>
+        </p-floatLabel>
+      </div>
+      <!-- Precio -->
+      <div style="display: flex;align-items: center;">
+        <div style="margin-right: 10px;" class="content-input">
+          <label style="color: #797979; font-size: small;" for="username">Price</label>
+          <p-inputNumber
+            [ngClass]="{'ng-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched,'ng-dirty': productForm.get('price')?.dirty}"
+            formControlName="price" [showButtons]="true" inputId="stacked" mode="currency" min="0" currency="USD" />
+        </div>
+        <div class="content-input">
+          <label style="color: #797979; font-size: small;" for="username">Stock</label>
+          <p-inputNumber
+            [ngClass]="{'ng-invalid': productForm.get('stock')?.invalid && productForm.get('stock')?.touched,'ng-dirty': productForm.get('stock')?.dirty}"
+            min="1" formControlName="stock" [style]="{'width': '3rem'}" [showButtons]="true" buttonLayout="horizontal"
+            inputId="horizontal" spinnerMode="horizontal" decrementButtonClass="p-button-danger"
+            incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus" />
+        </div>
+      </div>
+      <!-- SKU -->
+      <div class="content-input">
+        <p-floatLabel>
+          <input
+            [ngClass]="{'ng-invalid': productForm.get('SKU')?.invalid && productForm.get('SKU')?.touched,'ng-dirty': productForm.get('SKU')?.dirty}"
+            id="SKU" type="text" pInputText formControlName="SKU" />
+          <label for="username">SKU</label>
+        </p-floatLabel>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <!-- IVA -->
+        <!-- <div class="content-input">
+    <label for="iva">IVA:</label>
+    <input 
+    id="iva" formControlName="iva" type="checkbox" [checked]="productForm.get('iva')?.value">
+  </div> -->
+        <div class="content-input">
+          <p-checkbox [ngClass]="{
+    'ng-invalid': productForm.get('iva')?.invalid && productForm.get('iva')?.touched,
+    'ng-dirty': productForm.get('iva')?.dirty
+  }" formControlName="iva" [binary]="true" inputId="binary">
+          </p-checkbox>         
+        </div>
+        <label style="color: #797979; font-size: small; margin: 15px 10px 0 10px;" for="username">IVA</label>
+        <!-- Categoría -->
+        <!-- <div>
+    <label for="category_id">Categoría:</label>
+    <input id="category_id" formControlName="category_id" type="text" required>
+    <div *ngIf="productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched" class="error">
+      La categoría es obligatoria.
+    </div>
+  </div> -->
+        <div style="margin-left: 30px;" class="content-input">
+          <p-dropdown [ngClass]="{
+    'ng-invalid': productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched,
+    'ng-dirty': productForm.get('category_id')?.dirty
+  }" formControlName="category_id" [style]="{ 'width': '400px' }" [options]="categorias" optionLabel="name"
+            optionValue="id" placeholder="Select a Category">
+          </p-dropdown>
+
+        </div>
+      </div>
+
+      
+      <!-- Especificaciones -->
+      <div>
+        <p-accordion [activeIndex]="0">
+          <p-accordionTab header="Especificaciones del producto">
+
+            <!-- Tipo de empaque -->
+            <!-- <div>
+              <label for="packaging_type">Tipo de empaque:</label>
+              <input id="packaging_type" formControlName="packaging_type" type="text">
+            </div> -->
+            <div class="content-input">
+              <p-floatLabel>
+                <input [ngClass]="{
+              'ng-invalid': productForm.get('packaging_type')?.invalid && productForm.get('packaging_type')?.touched,
+              'ng-dirty': productForm.get('packaging_type')?.dirty
+            }" id="packaging_type" type="text" pInputText formControlName="packaging_type" />
+                <label for="packaging_type">Tipo de empaque</label>
+              </p-floatLabel>
+            </div>
+            <!-- Material -->
+            <!-- <div>
+              <label for="material">Material:</label>
+              <input id="material" formControlName="material" type="text">
+            </div> -->
+            <div class="content-input">
+              <p-floatLabel>
+                <input [ngClass]="{
+              'ng-invalid': productForm.get('material')?.invalid && productForm.get('material')?.touched,
+              'ng-dirty': productForm.get('material')?.dirty
+            }" id="material" type="text" pInputText formControlName="material" />
+                <label for="material">Material</label>
+              </p-floatLabel>
+            </div>
+            <!-- Ubicación de uso -->
+            <!-- <div>
+              <label for="usage_location">Ubicación de uso:</label>
+              <input id="usage_location" formControlName="usage_location" type="text">
+            </div> -->
+            <div class="content-input">
+              <p-floatLabel>
+                <input [ngClass]="{
+              'ng-invalid': productForm.get('usage_location')?.invalid && productForm.get('usage_location')?.touched,
+              'ng-dirty': productForm.get('usage_location')?.dirty
+            }" id="usage_location" type="text" pInputText formControlName="usage_location" />
+                <label for="usage_location">Ubicación de uso</label>
+              </p-floatLabel>
+            </div>
+            <!-- Color -->
+            <!-- <div>
+              <label for="color">Color:</label>
+              <input id="color" formControlName="color" type="text">
+            </div> -->
+            <!-- <div class="content-input">              
+                <p-colorPicker [inline]="true" id="color" formControlName="color" />
+          </div> -->
+          <!-- <div>
+            <input formControlName="color" [colorPicker]="productForm.get('color')?.value" (colorPickerChange)="onColorChange($event)" [style.background]="productForm.get('color')?.value || '#ffffff'" />
+
+          </div> -->
+          <div style="display: flex;" class="content-input">
+            <div>
+              <div style="width: 100px; height: 40px; border-radius: 10px; margin-right: 10px; border: solid"[style.background]="productForm.get('color')?.value || '#ffffff'">
+
+              </div>
+              <!-- <input pInputText [style.background]="productForm.get('color')?.value || '#ffffff'" /> -->
+            </div>
+            <div>
+              <p-floatLabel>
+              <input
+              [colorPicker]="productForm.get('color')?.value" (colorPickerChange)="onColorChange($event)"
+               [ngClass]="{
+            'ng-invalid': productForm.get('color')?.invalid && productForm.get('color')?.touched,
+            'ng-dirty': productForm.get('color')?.dirty
+          }" id="color" type="text" pInputText formControlName="color" />
+              <label for="color">Color</label>
+            </p-floatLabel>
+            </div>
+            
+            
+          </div>
+            <!-- Capacidad de carga -->
+            <!-- <div>
+              <label for="load_capacity">Capacidad de carga:</label>
+              <input id="load_capacity" formControlName="load_capacity" type="text">
+            </div> -->
+            <div class="content-input">
+              <p-floatLabel>
+                <input [ngClass]="{
+              'ng-invalid': productForm.get('load_capacity')?.invalid && productForm.get('load_capacity')?.touched,
+              'ng-dirty': productForm.get('load_capacity')?.dirty
+            }" id="load_capacity" type="text" pInputText formControlName="load_capacity" />
+                <label for="load_capacity">Capacidad de carga</label>
+              </p-floatLabel>
+            </div>
+            <!-- País de origen -->
+            <!-- <div>
+              <label for="country_of_origin">País de origen:</label>
+              <input id="country_of_origin" formControlName="country_of_origin" type="text">
+            </div> -->
+            <div class="content-input">
+              <p-floatLabel>
+                <input [ngClass]="{
+              'ng-invalid': productForm.get('country_of_origin')?.invalid && productForm.get('country_of_origin')?.touched,
+              'ng-dirty': productForm.get('country_of_origin')?.dirty
+            }" id="load_capacity" type="text" pInputText formControlName="country_of_origin" />
+                <label for="country_of_origin">País de origen</label>
+              </p-floatLabel>
+            </div>
+            <!-- Garantía -->
+            <!-- <div>
+              <label for="warranty">Garantía:</label>
+              <input id="warranty" formControlName="warranty" type="checkbox"
+                [checked]="productForm.get('warranty')?.value">
+            </div> -->
+
+            <!-- Número de piezas -->
+            <!-- <div>
+              <label for="number_of_pieces">Número de piezas:</label>
+              <input id="number_of_pieces" formControlName="number_of_pieces" type="number" min="1">
+            </div> -->
+            <div style="display: flex; align-items: center;">
+              <div class="content-input">
+                <p-checkbox [ngClass]="{
+          'ng-invalid': productForm.get('warranty')?.invalid && productForm.get('warranty')?.touched,
+          'ng-dirty': productForm.get('warranty')?.dirty
+        }" formControlName="warranty" [binary]="true" inputId="binary">
+                </p-checkbox>         
+              </div>
+              <label style="color: #797979; font-size: small; margin: 15px 10px 0 10px;" for="username">Garantía</label>
+              <div class="content-input">
+                <label style="color: #797979; font-size: small;" for="username">Número de piezas</label>
+                <p-inputNumber
+                  [ngClass]="{'ng-invalid': productForm.get('number_of_pieces')?.invalid && productForm.get('number_of_pieces')?.touched,'ng-dirty': productForm.get('number_of_pieces')?.dirty}"
+                  min="1" formControlName="number_of_pieces" [style]="{'width': '3rem'}" [showButtons]="true" buttonLayout="horizontal"
+                  inputId="horizontal" spinnerMode="horizontal" decrementButtonClass="p-button-danger"
+                  incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                  decrementButtonIcon="pi pi-minus" />
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <div style="margin-bottom: 30px; display: flex;">
+        <!-- <p-button (click)="resetFileUpload(fileUpload)" label="Reset" icon="pi pi-history" severity="info" /> -->
+        <div style="margin-left: 30px;">
+          <p-button type="submit" [disabled]="productForm.invalid" (click)="onSubmit()" label="SAVE PRODUCT" icon="pi pi-save" severity="info" />
+        </div>
+        <!-- <div>
+          <button type="submit" [disabled]="productForm.invalid">Crear producto</button>
+        </div> -->
+      </div>
+      <p-toast />
+      <p-fileUpload #fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+        (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000">
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">
+              {{ file.name }} - {{ file.size }} bytes
+            </li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+
+      <div style="margin-top: 10px;">
+        <!-- <p-orderList [value]="uploadedFiles" [listStyle]="{ 'max-height': '30rem' }" header="Toca para ordear"
+          [dragdrop]="true">
+          <ng-template let-product pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+
+              <p-image [src]="product.url" alt="Image" width="100" [preview]="true" />
+
+              <div class="flex-1 flex flex-column gap-2">
+                <span class="font-bold">{{ product.name }}</span>
+                <div class="flex align-items-center gap-2">
+                  <i class="pi pi-tag text-sm"></i>
+                  <span>
+                    {{ product.size }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-orderList> -->
+        <p-orderList [value]="uploadedFiles" [listStyle]="{ 'max-height': '30rem' }" header="Toca para ordenar"
+          [dragdrop]="true">
+  <ng-template let-product pTemplate="item">
+    <div class="flex flex-wrap p-2 align-items-center gap-3">
+      <div *ngIf="product.image_path">
+        <p-image [src]="product.image_path" alt="Image" width="100" [preview]="true" />
+      </div>
+      <div *ngIf="product.url">
+        <p-image [src]="product.url" alt="Image" width="100" [preview]="true" />
+      </div>
+      <div class="flex-1 flex flex-column gap-2">
+        <span class="font-bold">{{ product.name }}</span>
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-tag text-sm"></i>
+          <span>
+            {{ product.size }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <p-button (click)="removeImage(product)" icon="pi pi-trash" severity="danger" />
+  </ng-template>
+  
+</p-orderList>
+
+      </div>
+
+    </div>
+
   </div>
+</form>
+
+<div *ngIf="isLoading" style="background-color: #1d1d1d29; position: fixed; z-index: 100; width: 100%; top: 0; height: 100%; display: flex; align-items: center; justify-content: center;">
+  <div >
+  <p-progressSpinner 
+      styleClass="w-4rem h-4rem" 
+      strokeWidth="8" 
+      fill="var(--surface-ground)" 
+      animationDuration=".5s" />
+</div>
+</div>

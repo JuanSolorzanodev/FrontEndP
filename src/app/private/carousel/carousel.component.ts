@@ -93,6 +93,7 @@ export class CarouselComponent {
       header: 'Confirmación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        console.log(image.id);
         this.carouselService.deleteImage(image.id).subscribe(
           (response) => {
             this.messageService.add({
@@ -115,27 +116,6 @@ export class CarouselComponent {
     });
   }
 
-  // Restaurar una imagen eliminada
-  restoreImage(image: any): void {
-    this.carouselService.restoreImage(image.id).subscribe(
-      (response) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Imagen restaurada correctamente'
-        });
-        this.getImages();
-      },
-      (error) => {
-        console.error('Error al restaurar imagen:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo restaurar la imagen'
-        });
-      }
-    );
-  }
 
   // Abrir el diálogo para subir imágenes
   openUploadDialog(): void {

@@ -30,7 +30,17 @@ export class ProductoService {
   getProductDetails(productId: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/${productId}/details`);
   }
- 
+  createProduct(productData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, productData);
+  }
+  // Método para actualizar un producto
+  updateProduct(productId: number, productData: FormData): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/${productId}`, productData);
+}
+// Función para eliminar un producto
+deleteProduct(productId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${productId}`);
+}
 }
 
 

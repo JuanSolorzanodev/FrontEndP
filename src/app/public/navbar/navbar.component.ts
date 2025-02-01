@@ -13,6 +13,7 @@ import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { CartComponent } from '../cart/cart.component';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -30,11 +31,19 @@ export class NavbarComponent implements OnInit {
   user:any[] = []
   selectedFile!: TreeNode;
   items!: MenuItem[];
-  constructor(private categoriasService: CategoriasService,private router: Router) {}
+  isDarkTheme:boolean = false;
+  constructor(private categoriasService: CategoriasService,private router: Router,public themeService: ThemeService) {
+    
+  }
   sidebarVisible: boolean = false;
+ 
   login(){
     this.router.navigate(['/login']);
   }
+  
+  
+
+  
   ngOnInit() {
     this.items = [
       {
@@ -132,7 +141,35 @@ export class NavbarComponent implements OnInit {
     );
     
   }
-  
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme; // Cambia el estado del tema
+    const body = document.body;
+
+    // Si el tema es oscuro, aplica la clase dark-theme
+    if (this.isDarkTheme) {
+      body.classList.remove('light-theme');
+      body.classList.add('dark-theme');
+    } else { // Si el tema es claro, aplica la clase light-theme
+      body.classList.remove('dark-theme');
+      body.classList.add('light-theme');
+    }
+    console.log('dark');
+  }
+  changeTheme () {  
+    let theme = 'saga-green';
+    // Si el tema es oscuro, aplica la clase dark-theme
+    if (this.isDarkTheme) {
+      theme = 'saga-green';
+      console.log('light',theme);
+      this.themeService.switchTheme (theme);
+    } else { // Si el tema es claro, aplica la clase light-theme
+      theme = 'vela-green';
+      console.log('dark',theme);
+      this.themeService.switchTheme (theme);
+    }
+    this.isDarkTheme = !this.isDarkTheme; // Cambia el estado del tema
+    
+    }
   nodeSelect(event:any){
     const node = event.node; 
     if (node.routerLink) { 

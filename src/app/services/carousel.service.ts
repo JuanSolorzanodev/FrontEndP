@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarouselService {
-  private apiUrl = 'http://localhost:8000/api/images'; // Cambia la URL según tu backend
+  private apiUrl = 'http://localhost:8000/api/carrusel'; // Cambia la URL según tu backend
 
   constructor(private http: HttpClient) {}
 
@@ -24,12 +24,9 @@ export class CarouselService {
   }
 
   // Eliminar una imagen del carrusel (soft delete)
-  deleteImage(id: number): Observable<any> {
+  deleteImage(id: any): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  // Restaurar una imagen eliminada
-  restoreImage(id: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/restore/${id}`, {});
-  }
+  
 }

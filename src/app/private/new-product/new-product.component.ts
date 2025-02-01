@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule, FormControl,ValidatorFn } from '@angular/forms';
-import { NproductService } from '../../services/nproduct.service';
+import { ProductoService } from '../../services/producto.service';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { FloatLabelModule } from "primeng/floatlabel"
@@ -15,6 +15,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { OrderListModule } from 'primeng/orderlist';
 import { ImageModule } from 'primeng/image';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 /* import { ColorPickerModule } from 'primeng/colorpicker'; */
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -44,7 +45,8 @@ interface UploadEvent {
     ToastModule,
     OrderListModule,
     ImageModule,
-    ColorPickerModule
+    ColorPickerModule,
+    ProgressSpinnerModule
 
   ],
   providers: [MessageService],
@@ -62,7 +64,8 @@ export class NewProductComponent implements OnInit {
   cities: City[] | undefined;
   formGroup: FormGroup | undefined;
   products!: any;
-  constructor(private formBuilder: FormBuilder, private productService: NproductService, private categoriasService: CategoriasService, private messageService: MessageService) { }
+  isLoading = false;
+  constructor(private formBuilder: FormBuilder, private productService: ProductoService, private categoriasService: CategoriasService, private messageService: MessageService) { }
   
   ngOnInit() {
     
@@ -119,7 +122,7 @@ export class NewProductComponent implements OnInit {
       country_of_origin: [''],
       warranty: [false],
       number_of_pieces: [1],
-      images: [[], [this.validateArrayLength(1, 6)]],// Para manejar múltiples archivos
+      images: [[], [this.validateArrayLength(1, 6)]]// Para manejar múltiples archivos
     });
     this.categoriasService.getCategorias().subscribe(
       (data:any) => {
@@ -212,6 +215,7 @@ export class NewProductComponent implements OnInit {
     if (this.productForm.invalid) {
       return;
     }
+    this.isLoading = true
     // Actualiza el formulario con las imágenes
     this.productForm.patchValue({
       images: this.uploadedFiles.map((item: any) => item.file), // Solo se almacenan los archivos reales
@@ -235,31 +239,32 @@ export class NewProductComponent implements OnInit {
       }
     }
   
-    // Llamada al servicio para crear el producto
-    this.productService.createProduct(formData).subscribe(
-      (response) => {
-        // Mostrar mensaje de éxito
+    this.productService.createProduct(formData).subscribe({
+      next: (response) => {
         this.messageService.add({
           severity: 'info',
           summary: 'Success',
           detail: 'PRODUCTO CREADO',
         });
 
-        // Limpiar el formulario después de la creación exitosa
+        // Limpiar el formulario
         this.productForm.reset();
         this.productForm.patchValue({ iva: false, warranty: false, number_of_pieces: 1 });
-
-        // Limpiar el campo de imágenes
         this.productForm.get('images')?.setValue([]);
+        this.uploadedFiles = []; // Limpiar la lista de archivos subidos
+
+        this.successMessage = 'Producto creado exitosamente.';
+        this.errorMessage = '';
       },
-      (error) => {
-        // Mostrar mensaje de error
+      error: (error) => {
         this.errorMessage = 'Error al crear el producto. Intente nuevamente.';
         this.successMessage = '';
+      },
+      complete: () => {
+        this.isLoading = false; // Ocultar el spinner
       }
-    );
+    });
   }
-  
   
 
   // Método para manejar la carga de archivos

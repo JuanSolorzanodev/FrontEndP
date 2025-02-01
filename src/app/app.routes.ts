@@ -9,6 +9,8 @@ export const routes: Routes = [
     children: [
       { path: '',loadComponent: () =>
         import('./public/home/home.component').then((c) => c.HomeComponent), },
+      { path: 'pay',loadComponent: () =>
+        import('./public/pay/pay.component').then((c) => c.PayComponent), },
       { path: 'admin/products',loadComponent: () =>
         import('./private/products/products.component').then((c) => c.ProductsComponent), },
       { path: 'admin/new-product',loadComponent: () =>

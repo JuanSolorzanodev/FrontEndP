@@ -2,7 +2,10 @@
     <div class="card">
         <p-menubar>
             <ng-template pTemplate="start">
-                <img width="100px"
+                
+                    <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" severity="info" />
+                    
+                    <img width="150px"
                     src="img/logosurblock.png"
                     alt="logo">
                 <!-- <img width="100px" src="../../../assets/img/logosurblock.png" alt="logo"> -->
@@ -29,11 +32,13 @@
                         </div>
                         
                     </p-sidebar>
-                    <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
+                    
                 </div>
+                
             </ng-template>
+            
             <ng-template pTemplate="item" let-item let-root="root">
-
+                
                 <a pRipple class="flex align-items-center p-menuitem-link">
 
                     <span [class]="item.icon"></span>
@@ -47,7 +52,14 @@
                 </a>
             </ng-template>
             <ng-template pTemplate="end">
+                
                 <div style="display: flex; align-items: center;" class="flex align-items-center gap-2">
+                    <!-- Botón para cambiar el tema -->
+                    <p-button [icon]="isDarkTheme ? 'pi pi-sun' : 'pi pi-moon'" severity="info" (click)="changeTheme()"></p-button>
+                    <div style="width: 100px;">
+                        <p-button  routerLink="" icon="pi pi-home" severity="info"/>
+                    </div>
+                    
                     <input type="text" pInputText placeholder="Search" class="w-8rem sm:w-auto" />
                     <div style="margin-left: 10px;">
                         <button (click)="login()" type="button" class="p-link">

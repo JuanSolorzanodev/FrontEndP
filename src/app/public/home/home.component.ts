@@ -55,12 +55,13 @@ export class HomeComponent implements OnInit {
     this.displayBasic = true;
     this.images = data;
   }
-  addToCart(productId: number, quantity:number) {
+  /* addToCart(productId: number, quantity:number) {
     this.productoService.getProductStockById(productId).subscribe((data:any) => {
       this.stockValor = data.stock;
       if (this.stockValor > 0) {
         if (this.cartService.addToCart(productId, quantity, this.stockValor) === true) {
           this.showInfoCart();
+          
         } else {
           this.showInfo();
         }
@@ -69,7 +70,24 @@ export class HomeComponent implements OnInit {
         this.showInfo();
       }
     });     
-  }
+  } */
+    addToCart(productId: number, quantity:number) {
+      this.productoService.getProductStockById(productId).subscribe((data:any) => {
+        this.stockValor = data.stock;
+        if (this.stockValor > 0) {
+          if (this.cartService.addToCart(productId, quantity, this.stockValor) === true) {
+            this.showInfoCart();
+            // Suscribirse a los cambios en el carrito
+  
+          } else {
+            this.showInfo();
+          }
+        } else {
+          this.getAllProducts();
+          this.showInfo();
+        }
+      });     
+    }
   showInfo() {
     this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Stock insuficiente' });
   }

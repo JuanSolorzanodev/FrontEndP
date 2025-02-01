@@ -1,8 +1,24 @@
 <p-sidebar [style]="{width: '40%'}" [(visible)]="sidebarVisible" position="right">
     <div style="display: flex ;align-items: center;">
         <h3>Cart Total</h3>
-        <span style="margin-left: 30px; font-size: x-large;">$100</span>
-    </div>    
+<span style="margin-left: 30px; font-size: x-large;">{{ '$' + cartTotal }}</span>
+<div style="margin-left: 20px;">
+    <p-button icon="pi pi-whatsapp" (click)="enviarPedidoWhatsApp()" [rounded]="true" severity="success" />
+</div>
+<div style="margin-left: 20px;">
+    <p-button icon="pi pi-credit-card" routerLink="/pay"  [rounded]="true" severity="info" />
+</div>
+    </div> 
+    <div *ngIf="loading == true" style="display: flex; justify-content: center;">
+        <div>
+           <p-progressSpinner 
+            styleClass="w-4rem h-4rem" 
+            strokeWidth="8" 
+            fill="var(--surface-ground)" 
+            animationDuration=".5s" /> 
+        </div>
+        
+    </div>
     <div *ngIf="loading == false" class="card">
         <p-dataView #dv [value]="products" [layout]="layout">
             <ng-template pTemplate="header">
@@ -20,7 +36,7 @@
                             <div class="md:w-10rem relative">
                                 <img style="width: 100px; height: 100px;"
                                     class="block xl:block mx-auto border-round w-full"
-                                    src="https://kywiec.vtexassets.com/arquivos/ids/198881-800-auto?v=638536499919300000&width=800&height=auto&aspect=true"
+                                    [src]="item.image_url"
                                     [alt]="item.name" />
                                 <!-- <p-tag [value]="item.inventoryStatus" [severity]="getSeverity(item)" class="absolute" [style.left.px]="4" [style.top.px]="4" /> -->
                             </div>
@@ -41,7 +57,7 @@
                                 </div>
                                 <div class="cart-price">
                                     <div>
-                                        <span class="text-xl font-semibold text-900">{{ '$' + item.price }}</span>
+                                        <span class="text-xl font-semibold text-900">{{ '$' + item.price * item.quantity }}</span>
                                         <div>
 
                                             <div class="input-number-container">
@@ -58,7 +74,7 @@
 
                                             </div>
                                             <p-button icon="pi pi-trash" [style]="{width:'30px',height:'30px'}"
-                                                [outlined]="true" severity="danger" />
+                                                [outlined]="true" (click)="delete(item.id)" severity="danger" />
 
                                         </div>
                                     </div>
@@ -71,12 +87,15 @@
             </ng-template>
             
         </p-dataView>
+        
+        
     </div>
 </p-sidebar>
 <div>
-    <p-button  (click)="getCart()" icon="pi pi-shopping-cart"/>
-    <p-badge [style]="{marginBottom:'20px',position:'absolute', right:'5px',top:'1px'}" [value]="totalProduts" severity="info" />
+    <p-button  (click)="getCart()" icon="pi pi-shopping-cart" severity="info"/>
+    <p-badge [style]="{marginBottom:'20px',position:'absolute', right:'5px',top:'1px'}" [value]="totalProduts" />
 </div>
+
 
 <!-- <i class="pi pi-envelope p-text-secondary" pBadge style="font-size: 2rem" severity="danger"></i> -->
 <!-- <i icon="pi pi-shopping-cart" (onClick)="sidebarVisible = true" class="pi pi-bell text-3xl" pBadge value="2"></i> -->

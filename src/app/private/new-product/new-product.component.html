@@ -275,3 +275,12 @@
 
   </div>
 </form>
+<div *ngIf="isLoading" style="background-color: #1d1d1d29; position: fixed; z-index: 100; width: 100%; top: 0; height: 100%; display: flex; align-items: center; justify-content: center;">
+  <div >
+  <p-progressSpinner 
+      styleClass="w-4rem h-4rem" 
+      strokeWidth="8" 
+      fill="var(--surface-ground)" 
+      animationDuration=".5s" />
+</div>
+</div>

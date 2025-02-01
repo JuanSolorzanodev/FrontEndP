@@ -1,4 +1,12 @@
-@import "primeng/resources/themes/saga-green/theme.css";
-/* @import "primeng/resources/themes/vela-green/theme.css"; */
-@import "primeng/resources/primeng.css";
-@import "primeicons/primeicons.css";
+/* Tema claro */
+
+  /* @import "primeng/resources/themes/saga-green/theme.css"; */
+  
+  
+  /* Tema oscuro */
+  
+  /* @import "primeng/resources/themes/vela-green/theme.css"; */
+  
+  
+  @import "primeng/resources/primeng.css";
+  @import "primeicons/primeicons.css";

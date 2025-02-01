@@ -1,42 +1,56 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
   private items: any = [];
-
+  private cartSubject = new BehaviorSubject<number>(0);
   constructor() {
     const cart = localStorage.getItem('cart');
     if (cart) {
       this.items = JSON.parse(cart);
     }
   }
+// Método para obtener el observable del carrito
+getCartUpdates() {
+  return this.cartSubject.asObservable();
+}
+  
+ // Agregar un producto al carrito
+addToCart(productId: number, quantity: number, stock: number): boolean {
+  const existingItem = this.items.find((item: any) => item.id === productId);
 
-  addToCart(productId: number, quantity: number, stock: number): boolean {
-    const existingItem = this.items.find((item: any) => item.id === productId);
-
-    if (existingItem) {
-      if (existingItem.quantity + quantity <= stock) {
-        existingItem.quantity += quantity;
-        localStorage.setItem('cart', JSON.stringify(this.items));
-        return true;
-      } else {
-        /* console.log('No se puede agregar más de este producto. Stock insuficiente.'); */
-        return false;
-      }
+  if (existingItem) {
+    if (existingItem.quantity + quantity <= stock) {
+      existingItem.quantity += quantity;
+      this.saveCart();
+      this.cartSubject.next(this.getTotalItems()); // Notificar cambio
+      return true;
     } else {
-      if (quantity <= stock) {
-        this.items.push({ id: productId, quantity: quantity });
-        localStorage.setItem('cart', JSON.stringify(this.items));
-        return true;
-      } else {
-        /* console.log('No se puede agregar más de este producto. Stock insuficiente.'); */
-        return false;
-      }
+      return false;
+    }
+  } else {
+    if (quantity <= stock) {
+      this.items.push({ id: productId, quantity: quantity });
+      this.saveCart();
+      this.cartSubject.next(this.getTotalItems()); // Notificar cambio
+      return true;
+    } else {
+      return false;
     }
   }
-
+}
+// Guardar el carrito en el localStorage
+private saveCart(): void {
+  localStorage.setItem('cart', JSON.stringify(this.items));
+}
+// Eliminar un producto del carrito
+removeProduct(productId: number): void {
+  this.items = this.items.filter((item: any) => item.id !== productId);
+  this.saveCart();
+}
   updateCart(productId: number, quantity: number, stock: number): boolean {
     if (quantity < 1 || quantity > stock) {
       console.log('Cantidad no válida. Debe ser al menos 1 y no mayor al stock.');
