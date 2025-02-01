@@ -1,0 +1,9 @@
+.field {
+    margin-bottom: 1rem;
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }

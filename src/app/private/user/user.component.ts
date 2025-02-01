@@ -7,21 +7,27 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     TableModule,
     ButtonModule,
     ConfirmDialogModule,
     DialogModule,
-    ToastModule],
+    ToastModule,
+    FormsModule,
+  ],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+  styleUrls: ['./user.component.css'],
 })
 export class UserComponent {
   users: any[] = []; // Lista de usuarios
+  editDialogVisible = false; // Control del diálogo de edición
+  selectedUser: any = {}; // Usuario seleccionado para editar
 
   constructor(
     private userService: UserService,
@@ -36,34 +42,96 @@ export class UserComponent {
   // Cargar todos los usuarios
   loadUsers(): void {
     this.userService.getUsers().subscribe(
-      (data:any) => {
-        this.users = data;
+      (data: any) => {
+        this.users = data.map((user: any) => ({ ...user, showPassword: false }));
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Error al cargar usuarios:', error);
       }
     );
   }
 
-  // Eliminar un usuario
+  // Abrir diálogo de edición
+  openEditDialog(user: any): void {
+    this.selectedUser = { id: user.id, name: user.name, email: user.email }; // No incluimos la contraseña
+    this.editDialogVisible = true;
+  }
+
+  // Alternar visibilidad de la contraseña en la tabla
+  togglePassword(user: any): void {
+    user.showPassword = !user.showPassword;
+  }
+
+  // Actualizar usuario
+  updateUser(): void {
+    if (!this.selectedUser.name || !this.selectedUser.email) {
+      return; // No permite enviar si hay campos vacíos
+    }
+
+    this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe(
+      () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Actualizado',
+          detail: 'Usuario actualizado correctamente',
+        });
+        this.editDialogVisible = false;
+        this.loadUsers();
+      },
+      (error: any) => {
+        console.error('Error al actualizar usuario:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo actualizar el usuario',
+        });
+      }
+    );
+  }
+
+  // Confirmar y eliminar un usuario
   deleteUser(id: number): void {
-    this.userService.deleteUser(id).subscribe(() => {
-      this.loadUsers();
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de eliminar este usuario?',
+      accept: () => {
+        this.userService.deleteUser(id).subscribe(() => {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Usuario Eliminado',
+            detail: 'El usuario ha sido eliminado',
+          });
+          this.loadUsers();
+        });
+      },
     });
   }
 
-  // Restaurar un usuario
+  // Restaurar usuario
   restoreUser(id: number): void {
     this.userService.restoreUser(id).subscribe(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Restaurado',
+        detail: 'Usuario restaurado correctamente',
+      });
       this.loadUsers();
     });
   }
 
-  // Eliminar un usuario permanentemente
+  // Eliminar usuario permanentemente
   forceDeleteUser(id: number): void {
-    this.userService.forceDeleteUser(id).subscribe(() => {
-      this.loadUsers();
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de eliminar permanentemente este usuario?',
+      accept: () => {
+        this.userService.forceDeleteUser(id).subscribe(() => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Eliminado Permanentemente',
+            detail: 'El usuario ha sido eliminado permanentemente',
+          });
+          this.loadUsers();
+        });
+      },
     });
   }
 }
-
