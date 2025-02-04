@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      countryCode: [null, Validators.required],
+      phoneCode: [null, Validators.required],
       phone: ['', [Validators.pattern('^[0-9]+$')]], // Solo números
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
@@ -61,12 +61,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegister() {
+    console.log("Formulario enviado:", this.registerForm.value); // 📌 Verifica los valores enviados
+  
     if (this.registerForm.valid) {
-      const { name, email, phone, password, countryCode } = this.registerForm.value;
-      const fullPhoneNumber = countryCode + phone; // Formato completo del número
-
+      const { name, email, phone, password, phoneCode } = this.registerForm.value;
+      const fullPhoneNumber = phoneCode + phone; // Formato completo del número
+  
+      console.log("Número de teléfono completo:", fullPhoneNumber); // 📌 Depuración
+  
       this.authService.register(name, email, fullPhoneNumber, password).subscribe({
         next: (response) => {
+          console.log("Respuesta del servidor:", response); // 📌 Verifica respuesta
           this.messageService.add({
             severity: 'success',
             summary: 'Registro exitoso',
@@ -75,6 +80,7 @@ export class RegisterComponent implements OnInit {
           this.registerForm.reset();
         },
         error: (err) => {
+          console.error("Error en el registro:", err); // 📌 Muestra el error exacto
           this.messageService.add({
             severity: 'error',
             summary: 'Error de registro',
@@ -83,6 +89,7 @@ export class RegisterComponent implements OnInit {
         },
       });
     } else {
+      console.warn("Formulario inválido:", this.registerForm.errors); // 📌 Verifica si el formulario es inválido
       this.messageService.add({
         severity: 'warn',
         summary: 'Formulario inválido',
@@ -90,4 +97,5 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
+  
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgxPayPalModule } from 'ngx-paypal';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,ConfirmDialogModule,
+  imports: [RouterOutlet,ConfirmDialogModule,NgxPayPalModule
    ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

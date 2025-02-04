@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,7 +8,7 @@ export class CartService {
 
   private items: any = [];
   private cartSubject = new BehaviorSubject<number>(0);
-  constructor() {
+  constructor(private http: HttpClient) {
     const cart = localStorage.getItem('cart');
     if (cart) {
       this.items = JSON.parse(cart);
@@ -72,6 +73,8 @@ removeProduct(productId: number): void {
   /* getItems() {
     return this.items;
   } */
+
+
   getItems(): { products: { id: number, quantity: number }[] } {
     return {
       products: this.items.map((item: any) => ({
@@ -111,5 +114,24 @@ removeProduct(productId: number): void {
       return false;
     }
   }
+
+  getCartItems(): Observable<any[]> {
+    return new Observable(observer => {
+      // Cargar los detalles de los productos desde la API
+      this.http.get<any[]>('http://127.0.0.1:8000/api/products').subscribe(products => {
+        const detailedCart = this.items.map((item: { id: number, quantity: number }) => {
+          const product = products.find(p => p.id === item.id);
+          return {
+            ...product,
+            quantity: item.quantity
+          };
+        });
+  
+        observer.next(detailedCart);
+        observer.complete();
+      });
+    });
+  }
+  
 
 }

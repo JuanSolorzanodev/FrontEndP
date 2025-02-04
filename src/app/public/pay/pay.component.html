@@ -1,42 +1,57 @@
-<p>pay works!</p>
 <div class="card">
-    <p-stepper orientation="vertical">
-        <p-stepperPanel header="Registre">
-            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-                <div class="flex flex-column h-12rem">
-                    <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                        Content I
-                    </div>
-                </div>
-                <div class="flex py-4">
-                    <p-button label="Next" (onClick)="nextCallback.emit()" />
-                </div>
-            </ng-template>
-        </p-stepperPanel>
-        <p-stepperPanel header="Formulario">
-            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
-                <div class="flex flex-column h-12rem">
-                    <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                        Content II
-                    </div>
-                </div>
-                <div class="flex py-4 gap-2">
-                    <p-button label="Back" severity="secondary" (onClick)="prevCallback.emit()" />
-                    <p-button label="Next" (onClick)="nextCallback.emit()" />
-                </div>
-            </ng-template>
-        </p-stepperPanel>
-        <p-stepperPanel header="Pago">
-            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
-                <div class="flex flex-column h-12rem">
-                    <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                        Content III
-                    </div>
-                </div>
-                <div class="flex py-4">
-                    <p-button label="Back" (onClick)="prevCallback.emit()" />
-                </div>
-            </ng-template>
-        </p-stepperPanel>
-    </p-stepper>
+  <p-stepper orientation="vertical" [(activeStep)]="currentStep">
+      
+      <!-- PASO 1: Registro de usuario -->
+      <p-stepperPanel header="Registre sus datos">
+          <ng-template pTemplate="content">
+              <div class="flex flex-column">
+                  <p>Ingrese sus datos para la compra</p>
+                  <form [formGroup]="userForm">
+                      <div class="p-field">
+                          <label for="name">Nombre</label>
+                          <input id="name" pInputText formControlName="name" />
+                      </div>
+                      <div class="p-field">
+                          <label for="email">Correo Electrónico</label>
+                          <input id="email" pInputText formControlName="email" />
+                      </div>
+                      <div class="p-field">
+                          <label for="address">Dirección</label>
+                          <input id="address" pInputText formControlName="address" />
+                      </div>
+                  </form>
+              </div>
+              <button pButton label="Siguiente" (click)="nextStep()"></button>
+          </ng-template>
+      </p-stepperPanel>
+
+      <!-- PASO 2: Resumen de compra -->
+      <p-stepperPanel header="Resumen de compra">
+          <ng-template pTemplate="content">
+              <div class="flex flex-column">
+                  <p>Verifique los productos en su carrito</p>
+                  <ul>
+                    <li *ngFor="let item of cartItems">
+                        {{ item.name }} - {{ item.quantity }} x ${{ item.price }}
+                      </li>
+                  </ul>
+                  <p><strong>Total: ${{ cartTotal.toFixed(2) }}</strong></p>
+              </div>
+              <button pButton label="Anterior" (click)="prevStep()"></button>
+              <button pButton label="Siguiente" (click)="nextStep()"></button>
+          </ng-template>
+      </p-stepperPanel>
+
+      <!-- PASO 3: Pago -->
+      <p-stepperPanel header="Pago">
+          <ng-template pTemplate="content">
+              <div class="flex flex-column">
+                  <p>Total a pagar: {{ cartTotal | currency }}</p>
+                  <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+              </div>
+              <button pButton label="Anterior" (click)="prevStep()"></button>
+          </ng-template>
+      </p-stepperPanel>
+
+  </p-stepper>
 </div>

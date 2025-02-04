@@ -38,14 +38,15 @@
                 <div class="p-inputgroup">
                   <!-- Selección de Código de País -->
                   <p-dropdown 
-                    optionLabel="name"
-                    [filter]="true"
-                    [options]="countryCodes"  
-                    optionValue="phoneCode" 
-                    formControlName="countryCode"
-                    placeholder="Selecciona un país"
-                    [style]="{'width': '150px'}">
-                  </p-dropdown>
+                  optionLabel="name"
+                  [filter]="true"
+                  [options]="countryCodes"  
+                  optionValue="phoneCode" 
+                  formControlName="phoneCode"  
+                  placeholder="Selecciona un país"
+                  [style]="{'width': '150px'}">
+                </p-dropdown>
+                
                   <!-- <p-dropdown [ngClass]="{
                     'ng-invalid': productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched,
                     'ng-dirty': productForm.get('category_id')?.dirty
@@ -64,8 +65,10 @@
               </div>
 
               <!-- Botón de Registro -->
-              <div  class="field">
-                <p-button label="Registar"  type="submit"  [disabled]="registerForm.invalid"></p-button>
+              <div style="display: flex; justify-content: center; text-align: center;" class="field">
+                <p-button label="Registrar" type="submit" [disabled]="registerForm.invalid" class="p-fluid"></p-button>
+
+
               </div>
             </div>
           </form>
