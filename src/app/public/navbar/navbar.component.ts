@@ -14,37 +14,44 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { CartComponent } from '../cart/cart.component';
 import { ThemeService } from '../../services/theme.service';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     TreeModule,
     MenubarModule, BadgeModule, AvatarModule, InputTextModule, RippleModule, CommonModule,SidebarModule,ButtonModule
-    ,CartComponent],
+    ,CartComponent,OverlayPanelModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit {
+  isAdmin: boolean = false;
   categorias: any[] = [];
   store:any[] = []
   user:any[] = []
   selectedFile!: TreeNode;
   items!: MenuItem[];
   isDarkTheme:boolean = false;
-  constructor(private categoriasService: CategoriasService,private router: Router,public themeService: ThemeService) {
+  constructor(private categoriasService: CategoriasService,private router: Router,
+    public themeService: ThemeService,private authService: AuthService) {
     
   }
   sidebarVisible: boolean = false;
  
-  login(){
+  /* login(){
     this.router.navigate(['/login']);
+  } */
+  
+  logout(): void {
+    this.authService.logout(); // Cierra sesión
   }
-  
-  
 
   
   ngOnInit() {
+    const user = this.authService.getUser(); // Obtiene los datos del usuario
+    this.isAdmin = user && user.role && user.role.name === 'admin'; // Verifica si es admin
     this.items = [
       {
           label: 'Home',

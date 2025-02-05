@@ -19,7 +19,7 @@
 
                         </div>
                       
-                        <div>
+                        <div *ngIf="isAdmin">
                             <h3>Admin</h3>
                             <div class="card flex justify-content-center">
                                 <p-tree [style]="{cursor: 'pointer'}" class="w-full md:w-30rem" [value]="store"
@@ -61,13 +61,41 @@
                     </div>
                     
                     <input type="text" pInputText placeholder="Search" class="w-8rem sm:w-auto" />
-                    <div style="margin-left: 10px;">
+                    <!-- <div style="margin-left: 10px;">
                         <button (click)="login()" type="button" class="p-link">
                             <img style="width: 40px;"
                                 src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" alt="Profile">
                         </button>
-                    </div>
+                    </div> -->
+                    <div style="margin-left: 10px;">
+                        <p-avatar
+                        (click)="op.toggle($event)"
+                        label="P"
+                        [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
+                        styleClass="mr-2"
+                        size="xlarge"
+                        shape="circle" />
+                        
+                        <!-- <button (click)="login()" type="button" class="p-link">
+                            <img style="width: 40px;"
+                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" alt="Profile">
+                        </button> -->
 
+                    </div>
+                    <p-overlayPanel #op [style]="{ width: '200px' ,right:'200px' }">
+                        <div>
+                            <div>
+                                
+                                <p-button routerLink="/login"  label="Login" [link]="true" />
+                            </div>
+                            <div>
+                             
+                                <p-button (click)="logout()"  label="Cerrar Seccion" [link]="true" />
+                            </div>
+                            
+                        </div>
+                        
+                    </p-overlayPanel>
                     <div style="margin-left: 10px;">
                         <app-cart></app-cart>
                     </div>
