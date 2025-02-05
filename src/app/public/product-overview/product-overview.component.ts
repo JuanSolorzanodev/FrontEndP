@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { CommonModule } from '@angular/common';
@@ -11,18 +11,24 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { CartService } from '../../services/cart.service';
-
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
   selector: 'app-product-overview',
   standalone: true,
-  imports: [TabViewModule, CommonModule, CardModule, ButtonModule, DividerModule, GalleriaModule, RadioButtonModule, FormsModule, InputTextModule,],
+  imports: [TabViewModule, CommonModule, CardModule, ButtonModule, DividerModule, 
+    GalleriaModule, RadioButtonModule, FormsModule, InputTextModule,ToastModule,InputNumberModule,ProgressSpinnerModule],
   templateUrl: './product-overview.component.html',
   styleUrls: ['./product-overview.component.css'],
+  providers: [MessageService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProductOverviewComponent implements OnInit {
-  productSpecifications: any = null; // Especificaciones del producto
+  productSpecifications!:any; // Especificaciones del producto
   productId: number = 0; // ID del producto seleccionado
-
+  totalProduts: number = 0;
   images: any[] | undefined; // Galería de imágenes
   position: 'bottom' | 'top' | 'left' | 'right' = 'left'; // Posición inicial
 
@@ -43,9 +49,14 @@ export class ProductOverviewComponent implements OnInit {
     private route: ActivatedRoute,
     private productoService: ProductoService,
     private cartService: CartService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
+    this.cartService.getCartUpdates().subscribe((total) => {
+      this.totalProduts = total;
+    });
+      this.loadInStockProducts();
     this.route.params.subscribe((params) => {
       const productIdParam = params['id'];
       if (!isNaN(productIdParam)) {
@@ -72,19 +83,21 @@ export class ProductOverviewComponent implements OnInit {
       },
     ];
   }
-
+  isLoading = true;
   // Cargar las especificaciones del producto
   loadProductDetails(productId: number) {
-    this.productoService.getProductDetails(productId).subscribe({
-      next: (response) => {
-        this.productSpecifications = response;
-
-        // Aquí puedes procesar las imágenes si vienen desde el backend
-        // this.images = response.images;
+    this.productoService.getProductDetails(this.productId).subscribe({
+      next: (response: any) => {
+        this.productSpecifications = response.data;
+        console.log(response.data);
+        this.productSpecifications.quantity = this.productSpecifications.quantity || 1; // Inicializar cantidad si no está definida
       },
       error: (error) => {
         console.error('Error al cargar las especificaciones:', error);
       },
+      complete: () => {
+        this.isLoading = false; // Desactivar spinner
+      }
     });
   }
 
@@ -92,37 +105,52 @@ export class ProductOverviewComponent implements OnInit {
   stockValor :number = 0;
   cartProducts!: any;
   products!: any;
-  increaseQuantity() {
-    if (this.productSpecifications?.data?.stock && this.quantity < this.productSpecifications.data.stock) {
-      this.quantity++;
-    }
-  }
   
-  decreaseQuantity() {
-    if (this.quantity > 1) {
-      this.quantity--;
-    }
-  }
   
+  
+  validateInput(stock: number, quantity: number, id: number) {
+    if (quantity < 1) {
+      quantity = 1; // Ajusta a 1 si es menor
+    } else if (quantity > stock) {
+      quantity = stock; // Ajusta a 5 si es mayor
+    }
+    this.productSpecifications.quantity = quantity; // Actualiza el valor de quantity
+    this.updateCart(id, quantity, stock);
+    this.getCart();
+  }
   addToCart(productId: number, quantity:number) {
     this.productoService.getProductStockById(productId).subscribe((data:any) => {
       this.stockValor = data.stock;
       if (this.stockValor > 0) {
         if (this.cartService.addToCart(productId, quantity, this.stockValor) === true) {
-          // this.showInfoCart();
+          this.showInfoCart();
+          // Suscribirse a los cambios en el carrito
+
         } else {
-          // this.showInfo();
+          this.showInfo();
         }
       } else {
-        // this.getAllProducts();
-        // this.showInfo();
+        this.getAllProducts();
+        this.showInfo();
       }
     });     
+  }
+  getAllProducts(){
+    this.productoService.getProducts().subscribe(data => {
+      this.products = data; 
+     });
+  }
+  showInfo() {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Stock insuficiente' });
+  }
+  showInfoCart() {
+    this.messageService.add({  severity: 'success', summary: 'Success', detail: 'Producto añadido' });
   }
 
   updateCart(productId: number, quantity: number, stock: number) {
     if (this.cartService.updateCart(productId, quantity, stock) == true) {
       console.log('Producto añadido al carrito:', { id: productId, quantity: quantity });
+      
     } else {
       /* this.showInfo(); */
     }
@@ -143,26 +171,62 @@ export class ProductOverviewComponent implements OnInit {
     
   }
 
-  getCart() {
+  /* getCart() {
     // this.loadInStockProducts();
     this.cartProducts = this.cartService.getItems();
     this.getProductsByIds();
+  } */
+  getCart() {
+    
+    this.loadInStockProducts();
+    this.cartProducts = this.cartService.getItems();
+    this.getProductsByIds();
+    
   }
-
+  productsInStock!: any;
+  loadInStockProducts(): void {
+    this.productoService.getInStockProducts().subscribe(
+      (data) => {
+        this.productsInStock = data;
+        this.removeProductCart();
+        this.getTotalItems();
+      },
+      (error) => {
+        console.error('Error fetching in-stock products', error);
+      }
+    );
+  }
+  getTotalItems() {
+    this.totalProduts = this.cartService.getTotalItems();
+  }
+  removeProductCart() {
+    this.cartService.removeProductCart(this.productsInStock);
+  }
   increment(stock: number, quantity: number, id: number) {
     if (quantity < stock) {
       quantity += 1;
+      this.productSpecifications.quantity = quantity; // Actualiza el valor de quantity
       this.updateCart(id, quantity, stock);
       this.getCart();
+      this.calculateCartTotal();
     }
   }
 
+  
   decrement(stock: number, quantity: number, id: number) {
     if (quantity > 1) {
       quantity -= 1;
+      this.productSpecifications.quantity = quantity; // Actualiza el valor de quantity
       this.updateCart(id, quantity, stock);
       this.getCart();
+      this.calculateCartTotal();
     }
+  }
+  cartTotal: number = 0;
+  calculateCartTotal() {
+    this.cartTotal = this.productSpecifications.reduce((total:any, item:any) => {
+      return total + (item.price * item.quantity);
+    }, 0);
   }
 
 

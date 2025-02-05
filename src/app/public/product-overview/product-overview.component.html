@@ -2,10 +2,19 @@
 <ng-template #loading>
   <p>Cargando las especificaciones del producto...</p>
 </ng-template>
+<div *ngIf="isLoading"> 
+  <p-progressSpinner 
+      styleClass="w-4rem h-4rem" 
+      strokeWidth="8" 
+      fill="var(--surface-ground)" 
+      animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<div *ngIf="productSpecifications?.images?.length; else loading">
 <div style="display: flex;">
       <div style="width: 50%;"> 
         <!-- Galería del producto -->
-        <div class="card" *ngIf="productSpecifications?.data?.images?.length; else loading">
+        <div class="card">
           <div class="flex flex-wrap gap-3 mb-5">
             <!-- <p-radioButton
               *ngFor="let option of positionOptions"
@@ -17,7 +26,7 @@
           </div>
 
           <p-galleria
-            [value]="productSpecifications.data.images"
+            [value]="productSpecifications?.images"
             [thumbnailsPosition]="position"
             [responsiveOptions]="responsiveOptions"
             [containerStyle]="{ 'width': '700px' }"
@@ -44,16 +53,16 @@
       </div>
       
       <div style="width: 30%; padding-left: 20px;">
-        <h2>{{ productSpecifications?.data?.name }}</h2>
-        <h3 style="color: #555;">{{ productSpecifications?.data?.category?.name }}</h3>
-        <p>{{ productSpecifications?.data?.description }}</p>
+        <h2>{{ productSpecifications?.name }}</h2>
+        <h3 style="color: #555;">{{ productSpecifications?.category?.name }}</h3>
+        <p>{{ productSpecifications?.description }}</p>
       
-        <h1 style="color: #1e88e5;">${{ productSpecifications?.data?.price }}</h1>
+        <h1 style="color: #1e88e5;">${{ productSpecifications?.price }}</h1>
       
       
         <div style="margin-top: 20px;">
           <label for="quantity"><strong>Cantidad:</strong></label>
-          <div class="flex align-items-center">
+          <!-- <div class="flex align-items-center">
             <button pButton type="button" icon="pi pi-minus" (click)="decreaseQuantity()"></button>
             <input
               type="number"
@@ -63,7 +72,20 @@
               [max]="productSpecifications?.data?.stock || 1"
             />
             <button pButton type="button" icon="pi pi-plus" (click)="increaseQuantity()"></button>
-          </div>
+          </div> -->
+          <div class="input-number-container">
+
+            <p-button (click)="decrement(productSpecifications?.stock,productSpecifications?.quantity,productSpecifications?.id)"
+                [style]="{width:'40px',height:'40px',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}"
+                severity="info" icon="pi pi-minus" />
+            <input min="1" [max]="productSpecifications?.stock" required [(ngModel)]="productSpecifications.quantity"
+                class="input-number" type="number" (change)="validateInput(productSpecifications?.stock,productSpecifications?.quantity,productSpecifications?.id)" />
+
+            <p-button (click)="increment(productSpecifications?.stock,productSpecifications?.quantity,productSpecifications?.id)"
+                [style]="{width:'40px',height:'40px',borderTopLeftRadius:'0px',borderBottomLeftRadius:'0px'}"
+                severity="primary" icon="pi pi-plus" />
+
+        </div>
         </div>
         <!-- <div class="input-number-container">
 
@@ -83,32 +105,32 @@
           label="Agregar al carrito"
           class="mt-3"
           icon="pi pi-shopping-cart"
-          (click)="addToCart(productSpecifications?.data?.id, productSpecifications?.data?.stock)"
+          (click)="addToCart(productSpecifications?.id,1)"
         ></button>
       
         <div style="margin-top: 20px; font-size: 14px; color: #777;">
-          <p><strong>Stock disponible:</strong> {{ productSpecifications?.data?.stock }}</p>
-          <p><strong>Garantía:</strong> {{ productSpecifications?.data?.specifications?.warranty }} año(s)</p>
-          <p><strong>Origen:</strong> {{ productSpecifications?.data?.specifications?.country_of_origin }}</p>
+          <p><strong>Stock disponible:</strong> {{ productSpecifications?.stock }}</p>
+          <p><strong>Garantía:</strong> {{ productSpecifications?.specifications?.warranty }} año(s)</p>
+          <p><strong>Origen:</strong> {{ productSpecifications?.specifications?.country_of_origin }}</p>
         </div>
       </div>
       
 </div>
-
+<p-toast />
 <div class="card">
   <p-tabView>
     <!-- Header I: Especificaciones generales -->
     <p-tabPanel header="Especificaciones Generales">
       <div *ngIf="productSpecifications">
         <ul>
-          <li><strong>Tipo de Embalaje:</strong> {{ productSpecifications?.data?.specifications?.packaging_type }}</li>
-          <li><strong>Material:</strong> {{ productSpecifications?.data?.specifications?.material }}</li>
-          <li><strong>Lugar de Uso:</strong> {{ productSpecifications?.data?.specifications?.place_of_use }}</li>
-          <li><strong>Color:</strong> {{ productSpecifications?.data?.specifications?.color }}</li>
-          <li><strong>Capacidad de Carga:</strong> {{ productSpecifications?.data?.specifications?.load_capacity }}</li>
-          <li><strong>País de Origen:</strong> {{ productSpecifications?.data?.specifications?.country_of_origin }}</li>
-          <li><strong>Garantía:</strong> {{ productSpecifications?.data?.specifications?.warranty }} año(s)</li>
-          <li><strong>Número de Piezas:</strong> {{ productSpecifications?.data?.specifications?.number_of_pieces }}</li>
+          <li><strong>Tipo de Embalaje:</strong> {{ productSpecifications?.specifications?.packaging_type }}</li>
+          <li><strong>Material:</strong> {{ productSpecifications?.specifications?.material }}</li>
+          <li><strong>Lugar de Uso:</strong> {{ productSpecifications?.specifications?.place_of_use }}</li>
+          <li><strong>Color:</strong> {{ productSpecifications?.specifications?.color }}</li>
+          <li><strong>Capacidad de Carga:</strong> {{ productSpecifications?.specifications?.load_capacity }}</li>
+          <li><strong>País de Origen:</strong> {{ productSpecifications?.specifications?.country_of_origin }}</li>
+          <li><strong>Garantía:</strong> {{ productSpecifications?.specifications?.warranty }} año(s)</li>
+          <li><strong>Número de Piezas:</strong> {{ productSpecifications?.specifications?.number_of_pieces }}</li>
         </ul>
       </div>
       <div *ngIf="!productSpecifications">
@@ -119,10 +141,10 @@
     <!-- Header II: Información adicional -->
     <p-tabPanel header="Información Adicional">
       <div *ngIf="productSpecifications">
-        <p><strong>Descripción:</strong> {{ productSpecifications?.data?.description }}</p>
-        <p><strong>Stock Disponible:</strong> {{ productSpecifications?.data?.stock }}</p>
-        <p><strong>Categoría:</strong> {{ productSpecifications?.data?.category?.name }}</p>
-        <p><strong>Precio:</strong> ${{ productSpecifications?.data?.price }}</p>
+        <p><strong>Descripción:</strong> {{ productSpecifications?.description }}</p>
+        <p><strong>Stock Disponible:</strong> {{ productSpecifications?.stock }}</p>
+        <p><strong>Categoría:</strong> {{ productSpecifications?.category?.name }}</p>
+        <p><strong>Precio:</strong> ${{ productSpecifications?.price }}</p>
       </div>
       <div *ngIf="!productSpecifications">
         <p>No hay información adicional disponible para este producto.</p>
@@ -130,5 +152,6 @@
     </p-tabPanel>
   
   </p-tabView>
+</div>
 </div>
 
